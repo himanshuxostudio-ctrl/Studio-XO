@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-ink-600;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #08080a;
+  }
+
+  body {
+    @apply bg-ink text-bone-200 font-body antialiased;
+    font-feature-settings: "ss01" 1, "kern" 1;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display text-bone-100;
+  }
+
+  a, button {
+    @apply outline-offset-4;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline outline-2 outline-gold-bright rounded-sm;
+  }
+
+  ::selection {
+    background-color: #b89258;
+    color: #08080a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-xo {
+    @apply mx-auto w-full max-w-content px-5 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply text-xs font-body font-semibold uppercase tracking-widest2 text-gold-bright;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-300 ease-editorial disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-bone-100 text-ink-950 hover:bg-gold-bright hover:text-ink-950;
+  }
+
+  .btn-outline {
+    @apply btn border border-bone-300/40 text-bone-100 hover:border-gold-bright hover:text-gold-bright;
+  }
+
+  .btn-whatsapp {
+    @apply btn bg-[#128C7E] text-bone-100 hover:bg-[#0f7267];
+  }
+
+  .btn-ghost {
+    @apply btn text-bone-100 hover:text-gold-bright;
+  }
+
+  .card-surface {
+    @apply border border-bone-300/10 bg-ink-900/60 backdrop-blur-sm;
+  }
+
+  .fade-up {
+    @apply animate-fade-up opacity-0;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+}

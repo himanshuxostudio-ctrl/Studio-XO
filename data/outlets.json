@@ -1,0 +1,431 @@
+[
+  {
+    "slug": "room-xo",
+    "name": "Room XO",
+    "brand": "room-xo",
+    "city": "Gurugram",
+    "state": "Haryana",
+    "status": "operational",
+    "tagline": "Techno after dark.",
+    "description": [
+      "Room XO is the electronic-music arm of the XO ecosystem — built for DJs, low light and long nights.",
+      "Expect a underground-leaning sound policy, a serious rig, and a crowd that comes for the music first."
+    ],
+    "heroImage": {
+      "src": "/placeholder/room-xo-hero",
+      "alt": "Room XO — dark, minimal, techno-driven interior"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/room-xo-1",
+        "alt": "Room XO dance floor at night"
+      },
+      {
+        "src": "/placeholder/room-xo-2",
+        "alt": "Room XO DJ booth and rig"
+      },
+      {
+        "src": "/placeholder/room-xo-3",
+        "alt": "Room XO crowd under low light"
+      }
+    ],
+    "address": "2nd Floor, AIPL Joy Central, Sector 65, Gurugram, Haryana 122002",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Room XO channel.",
+    "googleMapsUrl": "https://share.google/Xh2BMvYEHsbIfouM5",
+    "phones": [
+      "9205888734",
+      "9205888735"
+    ],
+    "emails": [
+      "roomxoofficial@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/roomxoofficial/",
+    "instagramHandle": "@roomxoofficial",
+    "whatsappNumber": "919205888734",
+    "seoTitle": "Room XO — Techno & Electronic Nightlife",
+    "seoDescription": "Room XO is the techno and electronic-music venue in the XO ecosystem — DJs, underground sound and late-night clubbing.",
+    "localSeoIntro": "Room XO brings a dedicated techno and electronic-music sound policy to the XO family — a room built for DJs and dancing until late.",
+    "featured": true
+  },
+  {
+    "slug": "gurgaon",
+    "name": "Studio XO Gurgaon",
+    "brand": "studio-xo",
+    "city": "Gurgaon",
+    "state": "Haryana",
+    "status": "renovation",
+    "statusMessage": "Coming back soon. We're renovating Studio XO Gurgaon to raise the bar again — follow us for the reopening date.",
+    "tagline": "Coming back soon.",
+    "description": [
+      "Studio XO Gurgaon is currently under renovation.",
+      "We're reworking the space to bring you a sharper version of live music, food and nightlife in Gurgaon. Follow us on Instagram for reopening updates."
+    ],
+    "heroImage": {
+      "src": "/placeholder/gurgaon-hero",
+      "alt": "Studio XO Gurgaon — under renovation"
+    },
+    "gallery": [],
+    "addressVerified": false,
+    "googleMapsUrl": "https://share.google/GcSnCYhn6WgzU4haH",
+    "phones": [
+      "9773898075"
+    ],
+    "emails": [
+      "studioxoofficial@gmail.com",
+      "studioxogurgaon@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxoofficial/",
+    "instagramHandle": "@studioxoofficial",
+    "whatsappNumber": "919773898075",
+    "seoTitle": "Studio XO Gurgaon — Under Renovation | Reopening Soon",
+    "seoDescription": "Studio XO Gurgaon is under renovation and getting ready for its next chapter. Follow us for the reopening date and updates.",
+    "localSeoIntro": "Studio XO Gurgaon has been a home for live music and nightlife in the city — it's currently under renovation and will reopen soon.",
+    "featured": false
+  },
+  {
+    "slug": "noida",
+    "name": "Studio XO Noida",
+    "brand": "studio-xo",
+    "city": "Noida",
+    "state": "Uttar Pradesh",
+    "status": "operational",
+    "tagline": "Live music, food and nights that run long.",
+    "description": [
+      "Studio XO Noida is where the week ends properly — live artists, a full kitchen and bar, and a room built for people who show up to actually enjoy themselves.",
+      "From weekend headline acts to comedy and Sufi nights, the calendar keeps moving. Check what's on and book a table before the room fills up."
+    ],
+    "heroImage": {
+      "src": "/placeholder/noida-hero",
+      "alt": "Studio XO Noida — live stage and dining floor"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/noida-1",
+        "alt": "Studio XO Noida live performance"
+      },
+      {
+        "src": "/placeholder/noida-2",
+        "alt": "Studio XO Noida dining area"
+      },
+      {
+        "src": "/placeholder/noida-3",
+        "alt": "Studio XO Noida bar"
+      }
+    ],
+    "address": "Plot 2, Ground Floor, BPTP Capital City, Sector 94, Noida, Uttar Pradesh",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Studio XO channel.",
+    "googleMapsUrl": "https://share.google/KxRwX5ghxTMDdLbwd",
+    "phones": [
+      "7428903222",
+      "7428952777"
+    ],
+    "emails": [
+      "studioxonoida@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxo.noida/",
+    "instagramHandle": "@studioxo.noida",
+    "whatsappNumber": "917428903222",
+    "seoTitle": "Studio XO Noida — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Noida hosts live music, comedy and weekend nights with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Noida is a live-entertainment and dining venue in Noida, built around live artists, weekend events and a full bar.",
+    "featured": true
+  },
+  {
+    "slug": "hyderabad-stone-waters",
+    "name": "Studio XO x Stone Waters Hyderabad",
+    "brand": "studio-xo",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "status": "operational",
+    "tagline": "Studio XO's live-entertainment concept, at Stone Waters.",
+    "description": [
+      "Studio XO x Stone Waters brings the Studio XO live-entertainment format to Hyderabad in partnership with Stone Waters.",
+      "Live acts, weekend programming and a dining-and-nightlife format built for the city."
+    ],
+    "heroImage": {
+      "src": "/placeholder/hyderabad-hero",
+      "alt": "Studio XO x Stone Waters Hyderabad"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/hyderabad-1",
+        "alt": "Studio XO Stone Waters Hyderabad interior"
+      },
+      {
+        "src": "/placeholder/hyderabad-2",
+        "alt": "Studio XO Stone Waters Hyderabad event night"
+      }
+    ],
+    "address": "S1, Ground Floor, Prestige Skytech Puppalaguda, Financial District, Nanakramguda, Hyderabad, Telangana 500032",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Studio XO channel.",
+    "googleMapsUrl": "https://maps.app.goo.gl/b6fHsT3hmqqXMzS6A",
+    "phones": [
+      "8977721991"
+    ],
+    "emails": [],
+    "instagramUrl": "https://www.instagram.com/studioxo.stonewaters/",
+    "instagramHandle": "@studioxo.stonewaters",
+    "whatsappNumber": "918977721991",
+    "seoTitle": "Studio XO x Stone Waters Hyderabad — Live Events & Nightlife",
+    "seoDescription": "Studio XO x Stone Waters Hyderabad hosts live music and weekend events. See upcoming shows and reserve a table.",
+    "localSeoIntro": "Studio XO x Stone Waters is Studio XO's live-entertainment venue in Hyderabad, run in partnership with Stone Waters.",
+    "featured": false
+  },
+  {
+    "slug": "meerut",
+    "name": "Studio XO Meerut",
+    "brand": "studio-xo",
+    "city": "Meerut",
+    "state": "Uttar Pradesh",
+    "status": "operational",
+    "tagline": "Meerut's night out, elevated.",
+    "description": [
+      "Studio XO Meerut brings live music, dining and weekend nightlife to the city under one roof.",
+      "From artist performances to themed nights, it's built for groups who want more than just a table."
+    ],
+    "heroImage": {
+      "src": "/placeholder/meerut-hero",
+      "alt": "Studio XO Meerut"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/meerut-1",
+        "alt": "Studio XO Meerut stage"
+      },
+      {
+        "src": "/placeholder/meerut-2",
+        "alt": "Studio XO Meerut crowd"
+      }
+    ],
+    "address": "Garh Road, Ram Garhi, near Samudra Hyundai, opposite VIP Luggage & Bags, Meerut, Uttar Pradesh",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Studio XO channel.",
+    "googleMapsUrl": "https://share.google/RdiYC0GP6BmmysbwC",
+    "phones": [
+      "8679019934",
+      "8679019935"
+    ],
+    "emails": [
+      "studioxomeerut@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxo.meerut/",
+    "instagramHandle": "@studioxo.meerut",
+    "whatsappNumber": "918679019934",
+    "seoTitle": "Studio XO Meerut — Live Music & Nightlife",
+    "seoDescription": "Studio XO Meerut hosts live music, DJ nights and weekend events with dining and cocktails. See what's on and book a table.",
+    "localSeoIntro": "Studio XO Meerut is a live-entertainment and dining venue in Meerut, hosting artists and weekend programming.",
+    "featured": false
+  },
+  {
+    "slug": "mohali",
+    "name": "Studio XO Mohali",
+    "brand": "studio-xo",
+    "city": "Mohali",
+    "state": "Punjab",
+    "status": "operational",
+    "tagline": "Where Mohali's nights come alive.",
+    "description": [
+      "Studio XO Mohali is a live-music and dining destination with a calendar that runs weekly — live artists, DJs and special nights.",
+      "Built for celebrations, big and small."
+    ],
+    "heroImage": {
+      "src": "/placeholder/mohali-hero",
+      "alt": "Studio XO Mohali"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/mohali-1",
+        "alt": "Studio XO Mohali live act"
+      },
+      {
+        "src": "/placeholder/mohali-2",
+        "alt": "Studio XO Mohali floor"
+      }
+    ],
+    "addressVerified": false,
+    "googleMapsUrl": "https://share.google/d4HiwF139tXAT32X4",
+    "phones": [
+      "8404044000"
+    ],
+    "emails": [
+      "studioxomohaali@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxomohali/",
+    "instagramHandle": "@studioxomohali",
+    "whatsappNumber": "918404044000",
+    "seoTitle": "Studio XO Mohali — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Mohali hosts live music and weekend events with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Mohali is a live-entertainment and dining venue serving the Mohali and Chandigarh tri-city area.",
+    "featured": false
+  },
+  {
+    "slug": "panipat",
+    "name": "Studio XO Panipat",
+    "brand": "studio-xo",
+    "city": "Panipat",
+    "state": "Haryana",
+    "status": "reopening-soon",
+    "statusMessage": "Reopening soon. Studio XO Panipat is on its way back — follow us for the date.",
+    "tagline": "Reopening soon.",
+    "description": [
+      "Studio XO Panipat is reopening soon.",
+      "Follow us on Instagram or reach out directly for updates on the reopening date."
+    ],
+    "heroImage": {
+      "src": "/placeholder/panipat-hero",
+      "alt": "Studio XO Panipat — reopening soon"
+    },
+    "gallery": [],
+    "addressVerified": false,
+    "googleMapsUrl": "https://share.google/ec2eeeVxGgTsibB7N",
+    "phones": [
+      "9077700037",
+      "9133400004"
+    ],
+    "emails": [
+      "studioxo24@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxo.panipat/",
+    "instagramHandle": "@studioxo.panipat",
+    "whatsappNumber": "919077700037",
+    "seoTitle": "Studio XO Panipat — Reopening Soon",
+    "seoDescription": "Studio XO Panipat is reopening soon. Follow us for the reopening date and updates.",
+    "localSeoIntro": "Studio XO Panipat has served live music and nightlife to the city and is preparing to reopen.",
+    "featured": false
+  },
+  {
+    "slug": "dehradun",
+    "name": "Studio XO Dehradun",
+    "brand": "studio-xo",
+    "city": "Dehradun",
+    "state": "Uttarakhand",
+    "status": "operational",
+    "tagline": "Dehradun's live-music address.",
+    "description": [
+      "Studio XO Dehradun combines live performances, dining and cocktails in one room, with a weekend calendar that keeps changing.",
+      "A go-to for artist nights, celebrations and groups looking for more than dinner."
+    ],
+    "heroImage": {
+      "src": "/placeholder/dehradun-hero",
+      "alt": "Studio XO Dehradun"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/dehradun-1",
+        "alt": "Studio XO Dehradun stage"
+      },
+      {
+        "src": "/placeholder/dehradun-2",
+        "alt": "Studio XO Dehradun interior"
+      }
+    ],
+    "address": "Universal Trade Tower, Mussoorie Diversion Crossing, Rajpur Road, Kishanpur, Dehradun, Uttarakhand 248009",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Studio XO channel.",
+    "googleMapsUrl": "https://share.google/yN036qci6iOX8ESEJ",
+    "phones": [
+      "7302658417"
+    ],
+    "emails": [
+      "studioxodehradun@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxodehradun/",
+    "instagramHandle": "@studioxodehradun",
+    "whatsappNumber": "917302658417",
+    "seoTitle": "Studio XO Dehradun — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Dehradun hosts live music and weekend events with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Dehradun is a live-entertainment and dining venue in Dehradun, hosting artists and weekend nightlife.",
+    "featured": false
+  },
+  {
+    "slug": "kanpur",
+    "name": "Studio XO Kanpur",
+    "brand": "studio-xo",
+    "city": "Kanpur",
+    "state": "Uttar Pradesh",
+    "status": "operational",
+    "tagline": "Kanpur's night, live.",
+    "description": [
+      "Studio XO Kanpur brings live artists, DJs and a full dining and bar programme to the city's nightlife scene.",
+      "A regular calendar of events built for groups, celebrations and weekend regulars."
+    ],
+    "heroImage": {
+      "src": "/placeholder/kanpur-hero",
+      "alt": "Studio XO Kanpur"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/kanpur-1",
+        "alt": "Studio XO Kanpur live act"
+      },
+      {
+        "src": "/placeholder/kanpur-2",
+        "alt": "Studio XO Kanpur crowd"
+      }
+    ],
+    "address": "5th Floor, Virendra Smriti Complex, Civil Lines, Kanpur, Uttar Pradesh 208001",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Studio XO channel.",
+    "googleMapsUrl": "https://share.google/r1qkZIP35UDfLM0dt",
+    "phones": [
+      "9794452444"
+    ],
+    "emails": [
+      "studioxokanpur@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxokanpur/",
+    "instagramHandle": "@studioxokanpur",
+    "whatsappNumber": "919794452444",
+    "seoTitle": "Studio XO Kanpur — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Kanpur hosts live music and weekend events with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Kanpur is a live-entertainment and dining venue in Kanpur, hosting artists and weekend programming.",
+    "featured": false
+  },
+  {
+    "slug": "indore",
+    "name": "Studio XO Indore",
+    "brand": "studio-xo",
+    "city": "Indore",
+    "state": "Madhya Pradesh",
+    "status": "operational",
+    "tagline": "Indore's live-entertainment address.",
+    "description": [
+      "Studio XO Indore is a live-music, dining and nightlife venue with a weekend calendar spanning artists, DJs and special nights.",
+      "Built for celebrations and groups who want the night to actually go somewhere."
+    ],
+    "heroImage": {
+      "src": "/placeholder/indore-hero",
+      "alt": "Studio XO Indore"
+    },
+    "gallery": [
+      {
+        "src": "/placeholder/indore-1",
+        "alt": "Studio XO Indore stage"
+      },
+      {
+        "src": "/placeholder/indore-2",
+        "alt": "Studio XO Indore dining floor"
+      }
+    ],
+    "address": "302–304, 3rd Floor, A Block, High Street Apollo, Vijay Nagar, Indore, Madhya Pradesh 452010",
+    "addressVerified": false,
+    "addressNote": "Sourced from public business listings, not yet confirmed via an official Studio XO channel.",
+    "googleMapsUrl": "https://share.google/PYye0uBNjCjytfrt6",
+    "phones": [
+      "6262077722"
+    ],
+    "emails": [
+      "studioxoindore@gmail.com"
+    ],
+    "instagramUrl": "https://www.instagram.com/studioxo.indore/",
+    "instagramHandle": "@studioxo.indore",
+    "whatsappNumber": "916262077722",
+    "seoTitle": "Studio XO Indore — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Indore hosts live music and weekend events with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Indore is a live-entertainment and dining venue in Indore, hosting artists and weekend nightlife.",
+    "featured": false
+  }
+]
