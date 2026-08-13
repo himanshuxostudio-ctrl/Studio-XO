@@ -1,6 +1,4 @@
 import "server-only";
-import fs from "node:fs/promises";
-import path from "node:path";
 import type {
   AdminUser,
   AnyEnquiry,
@@ -19,41 +17,126 @@ import type {
 } from "./types";
 import { GENERAL_WHATSAPP_NUMBER, GENERAL_EMAIL } from "./constants";
 import { isPastDate } from "./utils";
+import { getSupabase } from "./supabase";
 
 /**
  * Data access layer.
  *
- * Everything reads from / writes to JSON files under /data today. All calls
- * are async and go through this module only, so the storage engine can be
- * swapped for Postgres/Supabase/Sanity later without touching page code —
- * replace the bodies of these functions, keep the signatures.
+ * Everything reads from / writes to Supabase Postgres. All calls go
+ * through this module only, so callers (Server Actions, pages, API
+ * routes) never touch the database client directly — every exported
+ * function here keeps the same name and shape it had when this file was
+ * JSON-file-backed.
  */
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const ENQUIRIES_DIR = path.join(DATA_DIR, "enquiries");
-
-async function readJson<T>(file: string): Promise<T> {
-  const raw = await fs.readFile(path.join(DATA_DIR, file), "utf-8");
-  return JSON.parse(raw) as T;
-}
-
-async function writeJson<T>(file: string, data: T): Promise<void> {
-  await fs.writeFile(path.join(DATA_DIR, file), JSON.stringify(data, null, 2), "utf-8");
-}
-
-async function readJsonWithDefault<T>(file: string, fallback: T): Promise<T> {
-  try {
-    return await readJson<T>(file);
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") return fallback;
-    throw err;
-  }
+function must<T>(result: { data: T | null; error: { message: string } | null }, context: string): T {
+  if (result.error) throw new Error(`${context}: ${result.error.message}`);
+  if (result.data === null) throw new Error(`${context}: no data returned`);
+  return result.data;
 }
 
 // ---------- Outlets ----------
 
+interface OutletRow {
+  slug: string;
+  name: string;
+  brand: Brand;
+  city: string;
+  state: string;
+  status: Outlet["status"];
+  status_message: string | null;
+  tagline: string;
+  description: string[];
+  hero_image: Outlet["heroImage"];
+  gallery: Outlet["gallery"];
+  address: string | null;
+  address_verified: boolean;
+  address_note: string | null;
+  google_maps_url: string;
+  coordinates: Outlet["coordinates"] | null;
+  phones: string[];
+  emails: string[];
+  instagram_url: string;
+  instagram_handle: string;
+  whatsapp_number: string;
+  opening_hours: Outlet["openingHours"] | null;
+  amenities: string[] | null;
+  faqs: Outlet["faqs"] | null;
+  seo_title: string;
+  seo_description: string;
+  local_seo_intro: string;
+  featured: boolean;
+}
+
+function rowToOutlet(row: OutletRow): Outlet {
+  return {
+    slug: row.slug,
+    name: row.name,
+    brand: row.brand,
+    city: row.city,
+    state: row.state,
+    status: row.status,
+    statusMessage: row.status_message ?? undefined,
+    tagline: row.tagline,
+    description: row.description,
+    heroImage: row.hero_image,
+    gallery: row.gallery,
+    address: row.address ?? undefined,
+    addressVerified: row.address_verified,
+    addressNote: row.address_note ?? undefined,
+    googleMapsUrl: row.google_maps_url,
+    coordinates: row.coordinates ?? undefined,
+    phones: row.phones,
+    emails: row.emails,
+    instagramUrl: row.instagram_url,
+    instagramHandle: row.instagram_handle,
+    whatsappNumber: row.whatsapp_number,
+    openingHours: row.opening_hours ?? undefined,
+    amenities: row.amenities ?? undefined,
+    faqs: row.faqs ?? undefined,
+    seoTitle: row.seo_title,
+    seoDescription: row.seo_description,
+    localSeoIntro: row.local_seo_intro,
+    featured: row.featured,
+  };
+}
+
+function outletToRow(outlet: Outlet): OutletRow {
+  return {
+    slug: outlet.slug,
+    name: outlet.name,
+    brand: outlet.brand,
+    city: outlet.city,
+    state: outlet.state,
+    status: outlet.status,
+    status_message: outlet.statusMessage ?? null,
+    tagline: outlet.tagline,
+    description: outlet.description,
+    hero_image: outlet.heroImage,
+    gallery: outlet.gallery,
+    address: outlet.address ?? null,
+    address_verified: outlet.addressVerified,
+    address_note: outlet.addressNote ?? null,
+    google_maps_url: outlet.googleMapsUrl,
+    coordinates: outlet.coordinates ?? null,
+    phones: outlet.phones,
+    emails: outlet.emails,
+    instagram_url: outlet.instagramUrl,
+    instagram_handle: outlet.instagramHandle,
+    whatsapp_number: outlet.whatsappNumber,
+    opening_hours: outlet.openingHours ?? null,
+    amenities: outlet.amenities ?? null,
+    faqs: outlet.faqs ?? null,
+    seo_title: outlet.seoTitle,
+    seo_description: outlet.seoDescription,
+    local_seo_intro: outlet.localSeoIntro,
+    featured: outlet.featured,
+  };
+}
+
 export async function getOutlets(): Promise<Outlet[]> {
-  return readJson<Outlet[]>("outlets.json");
+  const result = await getSupabase().from("outlets").select("*").order("name");
+  return must(result, "getOutlets").map(rowToOutlet);
 }
 
 export async function getOutletsByBrand(brand: Brand): Promise<Outlet[]> {
@@ -62,57 +145,148 @@ export async function getOutletsByBrand(brand: Brand): Promise<Outlet[]> {
 }
 
 export async function getOutletBySlug(slug: string): Promise<Outlet | null> {
-  const outlets = await getOutlets();
-  return outlets.find((o) => o.slug === slug) ?? null;
+  const result = await getSupabase().from("outlets").select("*").eq("slug", slug).maybeSingle();
+  if (result.error) throw new Error(`getOutletBySlug: ${result.error.message}`);
+  return result.data ? rowToOutlet(result.data) : null;
 }
 
 export async function saveOutlet(outlet: Outlet): Promise<void> {
-  const outlets = await getOutlets();
-  const index = outlets.findIndex((o) => o.slug === outlet.slug);
-  if (index === -1) outlets.push(outlet);
-  else outlets[index] = outlet;
-  await writeJson("outlets.json", outlets);
+  const row = { ...outletToRow(outlet), updated_at: new Date().toISOString() };
+  const result = await getSupabase().from("outlets").upsert(row, { onConflict: "slug" });
+  if (result.error) throw new Error(`saveOutlet: ${result.error.message}`);
 }
 
 export async function deleteOutlet(slug: string): Promise<void> {
-  const outlets = await getOutlets();
-  await writeJson(
-    "outlets.json",
-    outlets.filter((o) => o.slug !== slug)
-  );
+  const result = await getSupabase().from("outlets").delete().eq("slug", slug);
+  if (result.error) throw new Error(`deleteOutlet: ${result.error.message}`);
 }
 
 // ---------- Artists ----------
 
+interface ArtistRow {
+  id: string;
+  slug: string;
+  name: string;
+  bio: string;
+  image: Artist["image"] | null;
+  instagram_url: string | null;
+  genres: string[] | null;
+}
+
+function rowToArtist(row: ArtistRow): Artist {
+  return {
+    slug: row.slug,
+    name: row.name,
+    bio: row.bio,
+    image: row.image ?? undefined,
+    instagramUrl: row.instagram_url ?? undefined,
+    genres: row.genres ?? undefined,
+  };
+}
+
 export async function getArtists(): Promise<Artist[]> {
-  return readJson<Artist[]>("artists.json");
+  const result = await getSupabase().from("artists").select("*").order("name");
+  return must(result, "getArtists").map(rowToArtist);
 }
 
 export async function getArtistBySlug(slug: string): Promise<Artist | null> {
-  const artists = await getArtists();
-  return artists.find((a) => a.slug === slug) ?? null;
+  const result = await getSupabase().from("artists").select("*").eq("slug", slug).maybeSingle();
+  if (result.error) throw new Error(`getArtistBySlug: ${result.error.message}`);
+  return result.data ? rowToArtist(result.data) : null;
 }
 
 export async function saveArtist(artist: Artist): Promise<void> {
-  const artists = await getArtists();
-  const index = artists.findIndex((a) => a.slug === artist.slug);
-  if (index === -1) artists.push(artist);
-  else artists[index] = artist;
-  await writeJson("artists.json", artists);
+  const row = {
+    slug: artist.slug,
+    name: artist.name,
+    bio: artist.bio,
+    image: artist.image ?? null,
+    instagram_url: artist.instagramUrl ?? null,
+    genres: artist.genres ?? null,
+    updated_at: new Date().toISOString(),
+  };
+  const result = await getSupabase().from("artists").upsert(row, { onConflict: "slug" });
+  if (result.error) throw new Error(`saveArtist: ${result.error.message}`);
 }
 
 export async function deleteArtist(slug: string): Promise<void> {
-  const artists = await getArtists();
-  await writeJson(
-    "artists.json",
-    artists.filter((a) => a.slug !== slug)
-  );
+  const result = await getSupabase().from("artists").delete().eq("slug", slug);
+  if (result.error) throw new Error(`deleteArtist: ${result.error.message}`);
+}
+
+async function resolveArtistIds(slugs: string[]): Promise<string[]> {
+  if (slugs.length === 0) return [];
+  const result = await getSupabase().from("artists").select("id, slug").in("slug", slugs);
+  if (result.error) throw new Error(`resolveArtistIds: ${result.error.message}`);
+  return (result.data as Array<{ id: string; slug: string }>).map((r) => r.id);
 }
 
 // ---------- Events ----------
 
+interface EventRow {
+  id: string;
+  slug: string;
+  name: string;
+  brand: Brand;
+  outlet_slug: string;
+  category: Event["category"];
+  date: string;
+  start_time: string;
+  end_time: string | null;
+  artwork: Event["artwork"];
+  gallery: Event["gallery"] | null;
+  description: string[];
+  ticket: Event["ticket"];
+  table_booking_enabled: boolean;
+  whatsapp_override: string | null;
+  featured: boolean;
+  sold_out: boolean;
+  cancelled: boolean;
+  published: boolean;
+  faqs: Event["faqs"] | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  og_image: string | null;
+  source: Event["source"];
+  source_url: string | null;
+  event_artists?: Array<{ artists: { slug: string } | null }>;
+}
+
+const EVENT_SELECT = "*, event_artists(artists(slug))";
+
+function rowToEvent(row: EventRow): Event {
+  return {
+    slug: row.slug,
+    name: row.name,
+    brand: row.brand,
+    artistSlugs: (row.event_artists ?? []).map((ea) => ea.artists?.slug).filter((s): s is string => !!s),
+    outletSlug: row.outlet_slug,
+    category: row.category,
+    date: row.date,
+    startTime: row.start_time,
+    endTime: row.end_time ?? undefined,
+    artwork: row.artwork,
+    gallery: row.gallery ?? undefined,
+    description: row.description,
+    ticket: row.ticket,
+    tableBookingEnabled: row.table_booking_enabled,
+    whatsappOverride: row.whatsapp_override ?? undefined,
+    featured: row.featured,
+    soldOut: row.sold_out,
+    cancelled: row.cancelled,
+    published: row.published,
+    faqs: row.faqs ?? undefined,
+    seoTitle: row.seo_title ?? undefined,
+    seoDescription: row.seo_description ?? undefined,
+    ogImage: row.og_image ?? undefined,
+    source: row.source,
+    sourceUrl: row.source_url ?? undefined,
+  };
+}
+
 export async function getAllEvents(): Promise<Event[]> {
-  return readJson<Event[]>("events.json");
+  const result = await getSupabase().from("events").select(EVENT_SELECT).order("date");
+  return must(result, "getAllEvents").map((row) => rowToEvent(row as EventRow));
 }
 
 export async function getPublishedEvents(): Promise<Event[]> {
@@ -121,24 +295,61 @@ export async function getPublishedEvents(): Promise<Event[]> {
 }
 
 export async function getEventBySlug(slug: string): Promise<Event | null> {
-  const events = await getAllEvents();
-  return events.find((e) => e.slug === slug) ?? null;
+  const result = await getSupabase().from("events").select(EVENT_SELECT).eq("slug", slug).maybeSingle();
+  if (result.error) throw new Error(`getEventBySlug: ${result.error.message}`);
+  return result.data ? rowToEvent(result.data as EventRow) : null;
 }
 
 export async function saveEvent(event: Event): Promise<void> {
-  const events = await getAllEvents();
-  const index = events.findIndex((e) => e.slug === event.slug);
-  if (index === -1) events.push(event);
-  else events[index] = event;
-  await writeJson("events.json", events);
+  const supabase = getSupabase();
+  const row = {
+    slug: event.slug,
+    name: event.name,
+    brand: event.brand,
+    outlet_slug: event.outletSlug,
+    category: event.category,
+    date: event.date,
+    start_time: event.startTime,
+    end_time: event.endTime ?? null,
+    artwork: event.artwork,
+    gallery: event.gallery ?? null,
+    description: event.description,
+    ticket: event.ticket,
+    table_booking_enabled: event.tableBookingEnabled,
+    whatsapp_override: event.whatsappOverride ?? null,
+    featured: event.featured,
+    sold_out: event.soldOut,
+    cancelled: event.cancelled,
+    published: event.published,
+    faqs: event.faqs ?? null,
+    seo_title: event.seoTitle ?? null,
+    seo_description: event.seoDescription ?? null,
+    og_image: event.ogImage ?? null,
+    source: event.source,
+    source_url: event.sourceUrl ?? null,
+    updated_at: new Date().toISOString(),
+  };
+
+  const upserted = must(
+    await supabase.from("events").upsert(row, { onConflict: "slug" }).select("id").single(),
+    "saveEvent"
+  ) as { id: string };
+
+  const artistIds = await resolveArtistIds(event.artistSlugs);
+  const deleteResult = await supabase.from("event_artists").delete().eq("event_id", upserted.id);
+  if (deleteResult.error) throw new Error(`saveEvent (clear artists): ${deleteResult.error.message}`);
+
+  if (artistIds.length > 0) {
+    const insertResult = await supabase
+      .from("event_artists")
+      .insert(artistIds.map((artistId) => ({ event_id: upserted.id, artist_id: artistId })));
+    if (insertResult.error) throw new Error(`saveEvent (link artists): ${insertResult.error.message}`);
+  }
 }
 
 export async function deleteEvent(slug: string): Promise<void> {
-  const events = await getAllEvents();
-  await writeJson(
-    "events.json",
-    events.filter((e) => e.slug !== slug)
-  );
+  const result = await getSupabase().from("events").delete().eq("slug", slug);
+  if (result.error) throw new Error(`deleteEvent: ${result.error.message}`);
 }
 
 export async function hydrateEvent(event: Event): Promise<EventWithRelations | null> {
@@ -222,109 +433,280 @@ export async function getRelatedEvents(event: Event, limit = 3): Promise<Event[]
 
 // ---------- Enquiries ----------
 
-async function ensureEnquiriesDir(): Promise<void> {
-  await fs.mkdir(ENQUIRIES_DIR, { recursive: true });
-}
-
 export async function saveEnquiry(enquiry: AnyEnquiry): Promise<void> {
-  await ensureEnquiriesDir();
-  const file = path.join(ENQUIRIES_DIR, `${enquiry.type}-${enquiry.id}.json`);
-  await fs.writeFile(file, JSON.stringify(enquiry, null, 2), "utf-8");
+  const supabase = getSupabase();
+
+  if (enquiry.type === "reservation") {
+    const result = await supabase.from("reservations").insert({
+      id: enquiry.id,
+      outlet_slug: enquiry.outletSlug,
+      event_slug: enquiry.eventSlug ?? null,
+      name: enquiry.name,
+      phone: enquiry.phone,
+      email: enquiry.email ?? null,
+      date: enquiry.date,
+      time: enquiry.time,
+      guests: enquiry.guests,
+      occasion: enquiry.occasion ?? null,
+      additional_request: enquiry.additionalRequest ?? null,
+      source: enquiry.source,
+      status: enquiry.status,
+      created_at: enquiry.createdAt,
+    });
+    if (result.error) throw new Error(`saveEnquiry (reservation): ${result.error.message}`);
+    return;
+  }
+
+  if (enquiry.type === "private-party") {
+    const result = await supabase.from("private_party_leads").insert({
+      id: enquiry.id,
+      name: enquiry.name,
+      phone: enquiry.phone,
+      email: enquiry.email,
+      city: enquiry.city,
+      outlet_slug: enquiry.outletSlug ?? null,
+      event_date: enquiry.eventDate,
+      guests: enquiry.guests,
+      event_type: enquiry.eventType,
+      budget: enquiry.budget ?? null,
+      message: enquiry.message ?? null,
+      source: enquiry.source,
+      status: enquiry.status,
+      created_at: enquiry.createdAt,
+    });
+    if (result.error) throw new Error(`saveEnquiry (private-party): ${result.error.message}`);
+    return;
+  }
+
+  const result = await supabase.from("general_enquiries").insert({
+    id: enquiry.id,
+    name: enquiry.name,
+    phone: enquiry.phone,
+    email: enquiry.email,
+    outlet_slug: enquiry.outletSlug ?? null,
+    message: enquiry.message,
+    created_at: enquiry.createdAt,
+  });
+  if (result.error) throw new Error(`saveEnquiry (general): ${result.error.message}`);
 }
 
-export async function listEnquiries(): Promise<AnyEnquiry[]> {
-  await ensureEnquiriesDir();
-  const files = await fs.readdir(ENQUIRIES_DIR);
-  const enquiries = await Promise.all(
-    files
-      .filter((f) => f.endsWith(".json") && f !== ".gitkeep")
-      .map(async (f) => {
-        const raw = await fs.readFile(path.join(ENQUIRIES_DIR, f), "utf-8");
-        return JSON.parse(raw) as AnyEnquiry;
-      })
-  );
-  return enquiries.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+interface ReservationRow {
+  id: string;
+  outlet_slug: string;
+  event_slug: string | null;
+  name: string;
+  phone: string;
+  email: string | null;
+  date: string;
+  time: string;
+  guests: number;
+  occasion: string | null;
+  additional_request: string | null;
+  source: "website";
+  status: ReservationStatus;
+  created_at: string;
+}
+
+function rowToReservation(row: ReservationRow): ReservationEnquiry {
+  return {
+    id: row.id,
+    type: "reservation",
+    createdAt: row.created_at,
+    outletSlug: row.outlet_slug,
+    eventSlug: row.event_slug ?? undefined,
+    name: row.name,
+    phone: row.phone,
+    email: row.email ?? undefined,
+    date: row.date,
+    time: row.time,
+    guests: row.guests,
+    occasion: row.occasion ?? undefined,
+    additionalRequest: row.additional_request ?? undefined,
+    source: row.source,
+    status: row.status,
+  };
 }
 
 export async function getReservations(): Promise<ReservationEnquiry[]> {
-  const all = await listEnquiries();
-  return all.filter((e): e is ReservationEnquiry => e.type === "reservation");
+  const result = await getSupabase().from("reservations").select("*").order("created_at", { ascending: false });
+  return must(result, "getReservations").map(rowToReservation);
+}
+
+interface PrivatePartyLeadRow {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  city: string;
+  outlet_slug: string | null;
+  event_date: string;
+  guests: number;
+  event_type: string;
+  budget: string | null;
+  message: string | null;
+  source: "website";
+  status: LeadStatus;
+  created_at: string;
+}
+
+function rowToLead(row: PrivatePartyLeadRow): PrivatePartyEnquiry {
+  return {
+    id: row.id,
+    type: "private-party",
+    createdAt: row.created_at,
+    name: row.name,
+    phone: row.phone,
+    email: row.email,
+    city: row.city,
+    outletSlug: row.outlet_slug ?? undefined,
+    eventDate: row.event_date,
+    guests: row.guests,
+    eventType: row.event_type,
+    budget: row.budget ?? undefined,
+    message: row.message ?? undefined,
+    source: row.source,
+    status: row.status,
+  };
 }
 
 export async function getPrivatePartyLeads(): Promise<PrivatePartyEnquiry[]> {
-  const all = await listEnquiries();
-  return all.filter((e): e is PrivatePartyEnquiry => e.type === "private-party");
+  const result = await getSupabase().from("private_party_leads").select("*").order("created_at", { ascending: false });
+  return must(result, "getPrivatePartyLeads").map(rowToLead);
 }
 
 export async function updateReservationStatus(id: string, status: ReservationStatus): Promise<void> {
-  const file = path.join(ENQUIRIES_DIR, `reservation-${id}.json`);
-  const raw = await fs.readFile(file, "utf-8");
-  const enquiry = JSON.parse(raw) as ReservationEnquiry;
-  enquiry.status = status;
-  await fs.writeFile(file, JSON.stringify(enquiry, null, 2), "utf-8");
+  const result = await getSupabase().from("reservations").update({ status }).eq("id", id);
+  if (result.error) throw new Error(`updateReservationStatus: ${result.error.message}`);
 }
 
 export async function updateLeadStatus(id: string, status: LeadStatus): Promise<void> {
-  const file = path.join(ENQUIRIES_DIR, `private-party-${id}.json`);
-  const raw = await fs.readFile(file, "utf-8");
-  const enquiry = JSON.parse(raw) as PrivatePartyEnquiry;
-  enquiry.status = status;
-  await fs.writeFile(file, JSON.stringify(enquiry, null, 2), "utf-8");
+  const result = await getSupabase().from("private_party_leads").update({ status }).eq("id", id);
+  if (result.error) throw new Error(`updateLeadStatus: ${result.error.message}`);
 }
 
 // ---------- Users ----------
 
+interface UserRow {
+  id: string;
+  full_name: string;
+  email: string;
+  password_hash: string;
+  role: AdminUser["role"];
+  is_active: boolean;
+  created_at: string;
+}
+
+function rowToUser(row: UserRow): AdminUser {
+  return {
+    id: row.id,
+    name: row.full_name,
+    email: row.email,
+    passwordHash: row.password_hash,
+    role: row.role,
+    active: row.is_active,
+    createdAt: row.created_at,
+  };
+}
+
 export async function getUsers(): Promise<AdminUser[]> {
-  return readJsonWithDefault<AdminUser[]>("users.json", []);
+  const result = await getSupabase().from("users").select("*").order("created_at");
+  return must(result, "getUsers").map(rowToUser);
 }
 
 export async function getUserByEmail(email: string): Promise<AdminUser | null> {
-  const users = await getUsers();
-  return users.find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null;
+  const result = await getSupabase().from("users").select("*").ilike("email", email).maybeSingle();
+  if (result.error) throw new Error(`getUserByEmail: ${result.error.message}`);
+  return result.data ? rowToUser(result.data) : null;
 }
 
 export async function getUserById(id: string): Promise<AdminUser | null> {
-  const users = await getUsers();
-  return users.find((u) => u.id === id) ?? null;
+  const result = await getSupabase().from("users").select("*").eq("id", id).maybeSingle();
+  if (result.error) throw new Error(`getUserById: ${result.error.message}`);
+  return result.data ? rowToUser(result.data) : null;
 }
 
 export async function saveUser(user: AdminUser): Promise<void> {
-  const users = await getUsers();
-  const index = users.findIndex((u) => u.id === user.id);
-  if (index === -1) users.push(user);
-  else users[index] = user;
-  await writeJson("users.json", users);
+  const row = {
+    id: user.id,
+    full_name: user.name,
+    email: user.email,
+    password_hash: user.passwordHash,
+    role: user.role,
+    is_active: user.active,
+    created_at: user.createdAt,
+    updated_at: new Date().toISOString(),
+  };
+  const result = await getSupabase().from("users").upsert(row, { onConflict: "id" });
+  if (result.error) throw new Error(`saveUser: ${result.error.message}`);
 }
 
 export async function deleteUser(id: string): Promise<void> {
-  const users = await getUsers();
-  await writeJson(
-    "users.json",
-    users.filter((u) => u.id !== id)
-  );
+  const result = await getSupabase().from("users").delete().eq("id", id);
+  if (result.error) throw new Error(`deleteUser: ${result.error.message}`);
+}
+
+export async function touchUserLastLogin(id: string): Promise<void> {
+  const result = await getSupabase().from("users").update({ last_login_at: new Date().toISOString() }).eq("id", id);
+  if (result.error) throw new Error(`touchUserLastLogin: ${result.error.message}`);
 }
 
 // ---------- Media ----------
 
+interface MediaRow {
+  id: string;
+  url: string;
+  filename: string;
+  alt: string;
+  category: MediaItem["category"];
+  mime_type: string;
+  size: number;
+  uploaded_at: string;
+  uploaded_by: string | null;
+}
+
+function rowToMedia(row: MediaRow): MediaItem {
+  return {
+    id: row.id,
+    url: row.url,
+    filename: row.filename,
+    alt: row.alt,
+    category: row.category,
+    mimeType: row.mime_type,
+    size: row.size,
+    uploadedAt: row.uploaded_at,
+    uploadedBy: row.uploaded_by ?? undefined,
+  };
+}
+
 export async function getMedia(): Promise<MediaItem[]> {
-  const items = await readJsonWithDefault<MediaItem[]>("media.json", []);
-  return items.sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt));
+  const result = await getSupabase().from("media").select("*").order("uploaded_at", { ascending: false });
+  return must(result, "getMedia").map(rowToMedia);
 }
 
 export async function saveMediaItem(item: MediaItem): Promise<void> {
-  const items = await readJsonWithDefault<MediaItem[]>("media.json", []);
-  items.push(item);
-  await writeJson("media.json", items);
+  const result = await getSupabase().from("media").insert({
+    id: item.id,
+    url: item.url,
+    filename: item.filename,
+    alt: item.alt,
+    category: item.category,
+    mime_type: item.mimeType,
+    size: item.size,
+    uploaded_at: item.uploadedAt,
+    uploaded_by: item.uploadedBy ?? null,
+  });
+  if (result.error) throw new Error(`saveMediaItem: ${result.error.message}`);
 }
 
 export async function deleteMediaItem(id: string): Promise<MediaItem | null> {
-  const items = await readJsonWithDefault<MediaItem[]>("media.json", []);
-  const item = items.find((m) => m.id === id) ?? null;
-  await writeJson(
-    "media.json",
-    items.filter((m) => m.id !== id)
-  );
-  return item;
+  const supabase = getSupabase();
+  const existing = await supabase.from("media").select("*").eq("id", id).maybeSingle();
+  if (existing.error) throw new Error(`deleteMediaItem: ${existing.error.message}`);
+  if (!existing.data) return null;
+
+  const result = await supabase.from("media").delete().eq("id", id);
+  if (result.error) throw new Error(`deleteMediaItem: ${result.error.message}`);
+  return rowToMedia(existing.data);
 }
 
 // ---------- Settings ----------
@@ -335,12 +717,23 @@ const DEFAULT_SETTINGS: SiteSettings = {
 };
 
 export async function getSettings(): Promise<SiteSettings> {
-  const stored = await readJsonWithDefault<Partial<SiteSettings>>("settings.json", {});
-  return { ...DEFAULT_SETTINGS, ...stored };
+  const result = await getSupabase().from("site_settings").select("*").eq("id", 1).maybeSingle();
+  if (result.error) throw new Error(`getSettings: ${result.error.message}`);
+  if (!result.data) return DEFAULT_SETTINGS;
+  return {
+    generalWhatsappNumber: result.data.general_whatsapp_number,
+    generalEmail: result.data.general_email,
+  };
 }
 
 export async function saveSettings(settings: SiteSettings): Promise<void> {
-  await writeJson("settings.json", settings);
+  const result = await getSupabase()
+    .from("site_settings")
+    .upsert(
+      { id: 1, general_whatsapp_number: settings.generalWhatsappNumber, general_email: settings.generalEmail },
+      { onConflict: "id" }
+    );
+  if (result.error) throw new Error(`saveSettings: ${result.error.message}`);
 }
 
 export type { ReservationEnquiry, PrivatePartyEnquiry, GeneralEnquiry };

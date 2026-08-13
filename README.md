@@ -10,12 +10,11 @@ Built with **Next.js 15 (App Router) + TypeScript + Tailwind CSS**.
 
 - Marketing site: home, events (list + detail), outlets (list + detail), Room XO,
   private parties, about, contact, table reservations, legal pages, 404/error states.
-- A JSON-file data layer (`/data`) behind a single repository module (`lib/db.ts`),
-  organized as separate tables (outlets, events, artists, users, media, settings,
-  enquiries) with ID/slug-based relationships rather than one blob — so it can be
-  swapped for a real database later without touching page code. See
-  **Data layer & the Supabase question** below for why it's built this way instead
-  of on Supabase directly.
+- A **Supabase Postgres** data layer behind a single repository module (`lib/db.ts`),
+  with real tables (outlets, events, artists, event_artists, users, reservations,
+  private_party_leads, media, site_settings) — see `supabase/schema.sql`. Every
+  page/Server Action reads and writes through `lib/db.ts` only. See
+  **Data layer** below for the full architecture.
 - A full **role-based admin CMS** at `/admin` — see below.
 - Local SEO: per-outlet metadata, `LocalBusiness`/`MusicEvent`/`BreadcrumbList`/
   `FAQPage` JSON-LD, dynamic `sitemap.xml` and `robots.txt`, generated OG images.
@@ -27,19 +26,30 @@ Built with **Next.js 15 (App Router) + TypeScript + Tailwind CSS**.
 
 ## Getting started
 
+1. Create a Supabase project at [supabase.com](https://supabase.com) (free tier is fine).
+2. In the Supabase SQL Editor, run `supabase/schema.sql` once — it creates every
+   table plus a public `media` Storage bucket.
+3. Copy your project's URL and service-role key (Project Settings → API).
+
 ```bash
 npm install
-cp .env.example .env.local   # fill in SESSION_SECRET + ADMIN_SETUP_TOKEN at minimum
+cp .env.example .env.local   # fill in Supabase + SESSION_SECRET + ADMIN_SETUP_TOKEN
 npm run dev
 ```
 
-Visit `http://localhost:3000`. The homepage, events and outlets are live from the
-JSON data in `/data`. Visit `/admin` to set up your first Super Admin account.
+Visit `http://localhost:3000`. The homepage, events and outlets read live from
+Supabase. Visit `/admin` to set up your first Super Admin account.
+
+If you have existing content in the old `/data/*.json` fixtures, import it once
+with `npm run migrate:seed` (see **Data migration** below) before you start
+editing through the admin.
 
 ### Environment variables
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL. Safe to expose — it's just the endpoint. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Full read/write access, bypasses Row Level Security. **Server-only** — never prefix with `NEXT_PUBLIC_`, never expose to the browser. |
 | `SESSION_SECRET` | For any `/admin` sign-in | Signs admin session cookies. Generate with `openssl rand -hex 32`. |
 | `ADMIN_SETUP_TOKEN` | For first-time setup | One-time token required at `/admin/setup` to create the first Super Admin. Rotate/unset after setup if you like — setup disables itself once an account exists, independent of this var. |
 | `NEXT_PUBLIC_SITE_URL` | For correct canonical/OG URLs | Defaults to `https://www.studioxo.in`. |
@@ -47,29 +57,34 @@ JSON data in `/data`. Visit `/admin` to set up your first Super Admin account.
 | `NEXT_PUBLIC_GTM_ID` | No | Enables Google Tag Manager if set (takes priority over GA4 direct). |
 | `NEXT_PUBLIC_META_PIXEL_ID` | No | Enables the Meta Pixel if set (and cookies accepted). |
 
-None of these ship with real values — see `.env.example`. No password is ever
-hardcoded anywhere in the codebase.
+None of these ship with real values — see `.env.example`. No password or key is
+ever hardcoded anywhere in the codebase.
 
 ## Content model & where content lives
 
-Everything content-editorial lives in `/data` as JSON, typed in `lib/types.ts`:
+Everything content-editorial lives in Supabase Postgres (`supabase/schema.sql`),
+typed in `lib/types.ts` and accessed only through `lib/db.ts`:
 
-- `data/outlets.json` — the 9 Studio XO outlets + Room XO. Each outlet carries its
-  own status (`operational` / `renovation` / `reopening-soon` / `temporarily-closed`),
+- **`outlets`** — the 9 Studio XO outlets + Room XO. Each outlet carries its own
+  status (`operational` / `renovation` / `reopening-soon` / `temporarily-closed`),
   contact info, WhatsApp number, Google Maps link, and SEO fields. **Outlet status
   drives which CTAs render** (booking vs. "follow for updates") — this logic lives in
-  `OutletHero.tsx` and is never duplicated by hand across pages.
-- `data/events.json` — starts empty on purpose. No event names, dates, artists,
-  prices or ticket links were supplied by the client and none have been invented;
-  the events system is fully built (filtering, detail pages, schema, ticket CTAs
-  for BookMyShow/District/Skillboxes/custom links, sold-out/cancelled states,
-  artist references) and ready for real events via `/admin/events/new`, the
-  BookMyShow importer, or by editing the JSON directly.
-- `data/artists.json` — same story, empty by default. Events reference artists by
-  slug rather than duplicating bios.
-- `data/users.json`, `data/media.json`, `data/settings.json` — admin-only runtime
-  state, created on first write, **gitignored** (`users.json` holds bcrypt hashes
-  and must never be committed).
+  `OutletHero.tsx` and is never duplicated by hand across pages. The 10 outlets
+  originally supplied are in `data/outlets.json` for reference/import (see
+  **Data migration**).
+- **`events`** + **`event_artists`** — starts empty on purpose. No event names,
+  dates, artists, prices or ticket links were supplied by the client and none have
+  been invented; the events system is fully built (filtering, detail pages, schema,
+  ticket CTAs for BookMyShow/District/Skillboxes/custom links, sold-out/cancelled
+  states, artist references) and ready for real events via `/admin/events/new` or
+  the BookMyShow importer.
+- **`artists`** — same story, empty by default. Events reference artists by slug
+  (via the `event_artists` join table) rather than duplicating bios.
+- **`users`**, **`media`**, **`site_settings`**, **`reservations`**,
+  **`private_party_leads`**, **`general_enquiries`** — admin-only runtime data,
+  Row Level Security enabled with no public policies (only the server-side
+  service-role key can read/write). Passwords are always bcrypt hashes, never
+  plaintext, and no table is ever queried directly from the browser.
 
 ### Why some outlet fields are marked "unverified"
 
@@ -80,8 +95,8 @@ public business listings (Zomato/District), it's included with an
 `addressNote` flagging the source and `addressVerified: false`. Where sources
 conflicted (e.g. Gurgaon has two different listed addresses; Mohali and Panipat
 similarly), no address was invented — the page falls back to the supplied Google
-Maps link for directions. Update `data/outlets.json` (or use `/admin/outlets`)
-once addresses are confirmed with the outlets directly.
+Maps link for directions. Update the outlet via `/admin/outlets` once addresses
+are confirmed with the outlets directly.
 
 No opening hours, dress codes, age restrictions, ticket prices or table prices
 are shown anywhere, because none were supplied or could be verified against an
@@ -166,27 +181,41 @@ publish/edit/status change is live immediately, with no rebuild or redeploy. The
 so admin pages and the login/setup gate are never accidentally statically cached
 across a deploy.
 
-### Data layer & the Supabase question
+### Data layer
 
-The brief asked for Supabase/PostgreSQL "if available." This session has no
-Supabase project or credentials and can't provision one, so per that same
-instruction the CMS is built on the JSON-file data layer instead — structured as
-separate tables with slug/ID relationships (events → outlets, events → artists),
-not one giant object. Every read/write goes through `lib/db.ts`, and auth/session
-logic is isolated in `lib/auth.ts` on top of it. To move to Supabase or another
-Postgres instance: reimplement the functions in `lib/db.ts` with the same
-signatures, swap `lib/auth.ts`'s session cookie for Supabase Auth (or keep the
-current bcrypt + signed-cookie approach against a `users` table), and point
-`lib/media.ts` at Supabase Storage/S3 instead of `/public/uploads`. No page or
-component needs to change.
+All persistence is Supabase Postgres, accessed through a single service-role
+client (`lib/supabase.ts`, server-only, imported only by `lib/db.ts` and
+`lib/media.ts`). `lib/db.ts` is the one repository module every page/Server
+Action calls — it exports the same function names and shapes it always has
+(`getOutlets`, `saveEvent`, `getUserByEmail`, etc.), just backed by SQL queries
+instead of JSON files, so no page or component needed to change for this
+migration. Auth/session logic (bcrypt password hashing + HMAC-signed cookies)
+stays in `lib/auth.ts`, layered on top of the `users` table — it never talks to
+Postgres directly.
+
+Row Level Security is enabled on every table with no permissive policies, so the
+anon/public API key (if you ever add one for something else) cannot read or
+write anything. The service-role key bypasses RLS by design and is only ever
+used server-side.
 
 ### Media storage
 
-Uploads go to `/public/uploads/<category>/...` (gitignored) with metadata in
-`data/media.json`, chosen specifically so images never bloat the git repo. This
-needs a persistent filesystem (see **Deployment**). `lib/media.ts` is the one
-module to change to move storage to S3/Supabase Storage/Cloudinary — the
-`MediaItem` shape and every caller stay the same.
+Uploads go to a public Supabase Storage bucket (`media`, created by
+`supabase/schema.sql`) with metadata in the `media` table — nothing touches the
+local filesystem, which is what makes this safe to run on Vercel's serverless
+functions (see **Deployment**). `lib/media.ts` is the one module that talks to
+Storage; the `MediaItem` shape and every caller stay the same.
+
+### Data migration
+
+`scripts/migrate-to-supabase.mjs` imports the original `/data/*.json` fixtures
+(outlets, artists, events) into Supabase. It's idempotent — everything upserts
+on its slug, so re-running it never creates duplicates. Run it once after
+applying `supabase/schema.sql` and setting your env vars:
+
+```bash
+npm run migrate:seed
+```
 
 ## SEO & structured data
 
@@ -218,8 +247,9 @@ accepted the cookie banner (`components/shared/CookieConsent.tsx`,
 - Tailwind CSS
 - Zod (form validation, client + server)
 - bcryptjs (password hashing) + a small HMAC-signed session cookie (no external
-  auth service wired in — see the Supabase note above)
-- No ORM/DB client — see "Content model" above
+  auth service wired in — see **Data layer** above)
+- Supabase (`@supabase/supabase-js`) — Postgres data layer + Storage, via a
+  server-only service-role client (`lib/supabase.ts`)
 
 ## Security notes
 
@@ -227,7 +257,8 @@ accepted the cookie banner (`components/shared/CookieConsent.tsx`,
   rate-limited per IP (in-memory; move to a shared store like Redis if you scale
   to multiple server instances) — this covers the public reservation/private-party/
   contact forms **and** admin login attempts.
-- Passwords are hashed with bcrypt (cost 12); sessions are HMAC-signed cookies
+- Passwords are hashed with bcrypt (cost 12) and stored only as `password_hash`
+  in Postgres — never plaintext, never logged. Sessions are HMAC-signed cookies
   (`httpOnly`, `Secure` in production, `SameSite=Lax`, 8-hour expiry) keyed off
   `SESSION_SECRET` — no session is valid without it configured.
 - Every admin page and every data-mutating Server Action re-checks both
@@ -235,9 +266,14 @@ accepted the cookie banner (`components/shared/CookieConsent.tsx`,
   `requireSection()`), not just the nav. The `/admin/*` tree, plus `/admin/login`
   and `/admin/setup` specifically, are `force-dynamic` so a build-time snapshot of
   "no users yet" can never get baked in and served after real accounts exist.
-- `data/users.json`, `data/media.json`, `data/settings.json`, `data/enquiries/*`
-  and `public/uploads/` are all gitignored — none of that runtime/user data ever
-  reaches the repo.
+- `SUPABASE_SERVICE_ROLE_KEY` is read only in server-only modules
+  (`lib/supabase.ts`, guarded by the `server-only` package) and is never
+  prefixed `NEXT_PUBLIC_`, so it can't end up in a client bundle. Row Level
+  Security is enabled on every table with no public policies, so even a leaked
+  anon key couldn't read or write data — only the service-role key can.
+- `data/*.json` (kept only as the original migration source, see **Data
+  migration**), `data/enquiries/*` and `public/uploads/` are gitignored — none of
+  that ever reaches the repo, and neither is read at runtime anymore.
 - `npm audit` currently reports advisories in Next's own bundled `sharp`/`postcss`
   dependencies that are only fully resolved on Next 16 (a larger upgrade with
   breaking changes — React 19, further API churn). Given this app never runs
@@ -257,18 +293,21 @@ npm run start         # persistent Node server — required for the admin CMS
 
 ## Deployment
 
-The public marketing pages are statically/ISR-friendly and deploy anywhere Next.js
-runs. **The admin CMS specifically needs a persistent filesystem and a long-running
-Node process** (it reads/writes `/data/*.json` and `/public/uploads` on disk), so:
+Every write goes to Supabase (Postgres + Storage) rather than the local
+filesystem, so this deploys cleanly to serverless/edge platforms — including
+Vercel's default functions, where the filesystem is read-only at runtime. To
+deploy on Vercel:
 
-- **Good fit:** a VM/container running `next start` (Docker, Railway, Render,
-  Fly.io, a plain Linux box) with a persistent volume for `/data` and
-  `/public/uploads`.
-- **Needs adaptation:** serverless/edge platforms (e.g. Vercel's default
-  functions) — the filesystem there is ephemeral/read-only per invocation, so
-  admin writes won't persist. Either deploy this app to a persistent-server
-  target, or do the database + storage swap described above first, which works
-  everywhere.
+1. Push this repo, import it into Vercel.
+2. In the Vercel project's Environment Variables, set: `NEXT_PUBLIC_SUPABASE_URL`,
+   `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_SECRET`, `ADMIN_SETUP_TOKEN`, and
+   `NEXT_PUBLIC_SITE_URL` (plus any analytics IDs you use).
+3. Deploy. Visit `/admin/setup` once to create the first Super Admin — this now
+   writes to the `users` table in Supabase, not a local file, so it works the
+   same on every subsequent deploy/instance.
+
+A VM/container running `next start` works identically — same env vars, no
+persistent volume required, since nothing is written to disk.
 
 ## Project structure
 
@@ -292,9 +331,15 @@ components/
                             JSON-LD, empty/loading states, cookie consent
 lib/
   types.ts                 All content + admin types
-  db.ts                    Data repository (swap point for a real DB)
+  db.ts                    Data repository — all Supabase reads/writes
+  supabase.ts              Server-only Supabase client (service-role key)
   auth.ts, permissions.ts  Sessions, password hashing, role permission matrix
-  media.ts                 Upload storage (swap point for cloud storage)
+  media.ts                 Upload storage — Supabase Storage
+supabase/
+  schema.sql                Postgres schema + Storage bucket (run once in
+                             the Supabase SQL Editor)
+scripts/
+  migrate-to-supabase.mjs   One-time import of /data/*.json into Supabase
   bookmyshow.ts             BookMyShow public-page parser (pure function)
   schema.ts, seo.ts         Structured data + metadata builders
   whatsapp.ts, analytics.ts Conversion helpers

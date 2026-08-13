@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import { isSetupComplete } from "@/lib/auth";
 import { loginAction } from "./actions";
 
-// Whether this redirects to /admin/setup depends on runtime state
-// (users.json) that doesn't exist at build time — never let this be
+// Whether this redirects to /admin/setup depends on runtime state (the
+// users table) that isn't known at build time — never let this be
 // statically cached, or a fresh deploy can bake in a stale redirect.
 export const dynamic = "force-dynamic";
 

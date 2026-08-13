@@ -9,6 +9,8 @@ const nextConfig = {
       // BookMyShow's CDN — event artwork imported via /admin/events/import
       // links here until an admin replaces it with an uploaded asset.
       { protocol: "https", hostname: "**.bmscdn.com" },
+      // Supabase Storage — uploaded media (event artwork, gallery images).
+      { protocol: "https", hostname: "**.supabase.co" },
     ],
   },
   async headers() {

@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getUserByEmail, getUserById, getUsers } from "./db";
+import { getUserByEmail, getUserById, getUsers, touchUserLastLogin } from "./db";
 import { canAccess, type Section } from "./permissions";
 import type { AdminUser } from "./types";
 
@@ -83,6 +83,10 @@ export async function attemptLogin(email: string, password: string): Promise<{ o
     sameSite: "lax",
     path: "/",
     maxAge: SESSION_TTL_MS / 1000,
+  });
+
+  await touchUserLastLogin(user.id).catch(() => {
+    // Non-critical — sign-in already succeeded via the cookie above.
   });
 
   return { ok: true };
