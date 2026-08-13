@@ -2,6 +2,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Frame } from "@/components/shared/Frame";
+import { Reveal } from "@/components/shared/Reveal";
 
 export const metadata = buildMetadata({
   title: "About XO",
@@ -34,11 +35,11 @@ export default function AboutPage() {
 
       <section className="container-xo py-20 sm:py-28">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {PILLARS.map((pillar) => (
-            <div key={pillar.title} className="border-t border-bone-300/15 pt-4">
+          {PILLARS.map((pillar, i) => (
+            <Reveal key={pillar.title} delay={i * 80} className="border-t border-bone-300/15 pt-4">
               <p className="font-display text-xl text-bone-100">{pillar.title}</p>
               <p className="mt-2 text-sm text-bone-300/70">{pillar.copy}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>

@@ -14,8 +14,8 @@ export function EventCard({ event, outlet }: EventCardProps) {
 
   return (
     <Link href={`/events/${event.slug}`} className="group block">
-      <div className="relative">
-        <Frame image={event.artwork} className="aspect-[4/5] transition-transform duration-500 ease-editorial group-hover:scale-[1.02]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+      <div className="relative overflow-hidden border border-transparent transition-colors duration-500 ease-editorial group-hover:border-gold-bright/30">
+        <Frame image={event.artwork} className="aspect-[4/5] transition-transform duration-500 ease-editorial group-hover:scale-[1.03]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
 
         <div className="absolute left-3 top-3 flex flex-col items-center border border-bone-100/20 bg-ink-950/80 px-2.5 py-1.5 backdrop-blur-sm">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-gold-bright">{weekday}</span>

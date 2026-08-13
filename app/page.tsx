@@ -9,6 +9,7 @@ import { GallerySection } from "@/components/home/GallerySection";
 import { RoomXoTeaser } from "@/components/home/RoomXoTeaser";
 import { SocialSection } from "@/components/home/SocialSection";
 import { FinalCTA } from "@/components/home/FinalCTA";
+import { Reveal } from "@/components/shared/Reveal";
 
 export const metadata = buildMetadata({
   title: "Studio XO — Live Music, Nightlife & Private Parties",
@@ -23,13 +24,23 @@ export default async function HomePage() {
   return (
     <>
       <Hero outlets={outlets} />
-      <FeaturedEvents />
-      <LocationChooser />
-      <ExperienceSection />
+      <Reveal>
+        <FeaturedEvents />
+      </Reveal>
+      <Reveal>
+        <LocationChooser />
+      </Reveal>
+      <Reveal>
+        <ExperienceSection />
+      </Reveal>
       <PrivatePartyTeaser />
-      <GallerySection />
+      <Reveal>
+        <GallerySection />
+      </Reveal>
       <RoomXoTeaser />
-      <SocialSection />
+      <Reveal>
+        <SocialSection />
+      </Reveal>
       <FinalCTA />
     </>
   );

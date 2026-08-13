@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
+import { CookieConsent } from "@/components/shared/CookieConsent";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { organizationSchema } from "@/lib/schema";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main-content">{children}</main>
         <Footer />
         <StickyMobileCTA />
+        <CookieConsent />
         <AnalyticsScripts />
       </body>
     </html>

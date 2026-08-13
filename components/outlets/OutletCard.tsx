@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 export function OutletCard({ outlet }: { outlet: Outlet }) {
   return (
     <Link href={`/outlets/${outlet.slug}`} className="group block">
-      <div className="relative">
-        <Frame image={outlet.heroImage} className="aspect-[4/5] transition-transform duration-500 ease-editorial group-hover:scale-[1.02]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+      <div className="relative overflow-hidden border border-transparent transition-colors duration-500 ease-editorial group-hover:border-gold-bright/30">
+        <Frame image={outlet.heroImage} className="aspect-[4/5] transition-transform duration-500 ease-editorial group-hover:scale-[1.03]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
         <span
           className={cn(
             "absolute left-3 top-3 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm",

@@ -13,8 +13,8 @@ export async function LocationChooser() {
             <p className="eyebrow">Choose Your XO</p>
             <h2 className="text-display-3 mt-2">Nine cities, one calendar.</h2>
           </div>
-          <Link href="/outlets" className="text-xs font-semibold uppercase tracking-widest2 text-gold-bright hover:underline">
-            View all outlets →
+          <Link href="/outlets" className="group text-xs font-semibold uppercase tracking-widest2 text-gold-bright hover:underline">
+            View all outlets <span className="inline-block transition-transform duration-300 ease-editorial group-hover:translate-x-1">→</span>
           </Link>
         </div>
 

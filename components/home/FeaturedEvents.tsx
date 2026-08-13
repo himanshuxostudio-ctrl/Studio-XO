@@ -15,8 +15,8 @@ export async function FeaturedEvents() {
           <p className="eyebrow">What&rsquo;s On</p>
           <h2 className="text-display-3 mt-2">Upcoming at Studio XO</h2>
         </div>
-        <Link href="/events" className="text-xs font-semibold uppercase tracking-widest2 text-gold-bright hover:underline">
-          View all events →
+        <Link href="/events" className="group text-xs font-semibold uppercase tracking-widest2 text-gold-bright hover:underline">
+          View all events <span className="inline-block transition-transform duration-300 ease-editorial group-hover:translate-x-1">→</span>
         </Link>
       </div>
 
