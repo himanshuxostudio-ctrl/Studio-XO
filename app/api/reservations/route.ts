@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
     guests: parsed.data.guests,
     occasion: parsed.data.occasion || undefined,
     additionalRequest: parsed.data.additionalRequest || undefined,
+    source: "website",
+    status: "new",
   };
 
   await saveEnquiry(enquiry);

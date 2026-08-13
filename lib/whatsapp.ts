@@ -42,3 +42,12 @@ export function generalEnquiryMessage(outletName?: string): string {
     ? `Hi, I have a question about ${outletName}.`
     : `Hi, I have a question about Studio XO.`;
 }
+
+export function adminReservationFollowUp(params: { name: string; outletName: string; date: string; time: string; guests: number }): string {
+  const { name, outletName, date, time, guests } = params;
+  return `Hi ${name}, this is ${outletName} following up on your table request for ${guests} guests on ${formatEventDate(date)} at ${formatTime12h(time)}.`;
+}
+
+export function adminLeadFollowUp(params: { name: string; eventType: string }): string {
+  return `Hi ${params.name}, this is Studio XO following up on your ${params.eventType.toLowerCase()} enquiry.`;
+}

@@ -1,21 +1,28 @@
 import Link from "next/link";
 import { getAllEvents, getOutlets } from "@/lib/db";
 import { formatEventDate } from "@/lib/utils";
+import { requireSection } from "@/lib/auth";
 import { toggleEventFlagAction, deleteEventAction } from "./actions";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 export default async function AdminEventsPage() {
+  await requireSection("events");
   const [events, outlets] = await Promise.all([getAllEvents(), getOutlets()]);
   const outletMap = new Map(outlets.map((o) => [o.slug, o]));
   const sorted = [...events].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-display-3">Events</h1>
-        <Link href="/admin/events/new" className="btn-primary">
-          + New Event
-        </Link>
+        <div className="flex gap-3">
+          <Link href="/admin/events/import" className="btn-outline">
+            Import from BookMyShow
+          </Link>
+          <Link href="/admin/events/new" className="btn-primary">
+            + New Event
+          </Link>
+        </div>
       </div>
 
       {!sorted.length ? (

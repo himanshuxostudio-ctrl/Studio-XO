@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
 import { generalEnquiryMessage } from "@/lib/whatsapp";
-import { GENERAL_WHATSAPP_NUMBER } from "@/lib/constants";
+import { getSettings } from "@/lib/db";
 
-export function FinalCTA() {
+export async function FinalCTA() {
+  const settings = await getSettings();
+
   return (
     <section className="border-t border-bone-300/10">
       <div className="container-xo py-24 text-center sm:py-32">
@@ -15,7 +17,7 @@ export function FinalCTA() {
           <Link href="/reserve" className="btn-primary">
             Book a Table
           </Link>
-          <WhatsAppCTA number={GENERAL_WHATSAPP_NUMBER} message={generalEnquiryMessage()} context="homepage-final-cta" />
+          <WhatsAppCTA number={settings.generalWhatsappNumber} message={generalEnquiryMessage()} context="homepage-final-cta" />
         </div>
       </div>
     </section>

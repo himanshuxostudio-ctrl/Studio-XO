@@ -1,6 +1,6 @@
 export type Brand = "studio-xo" | "room-xo";
 
-export type OutletStatus = "operational" | "renovation" | "reopening-soon";
+export type OutletStatus = "operational" | "renovation" | "reopening-soon" | "temporarily-closed";
 
 export type TicketPlatform =
   | "bookmyshow"
@@ -8,6 +8,8 @@ export type TicketPlatform =
   | "skillboxes"
   | "custom"
   | "none";
+
+export type EventSource = "manual" | "bookmyshow-import";
 
 export type EventCategory =
   | "live-music"
@@ -113,6 +115,8 @@ export interface Event {
   seoTitle?: string;
   seoDescription?: string;
   ogImage?: string;
+  source: EventSource;
+  sourceUrl?: string;
 }
 
 export interface EventWithRelations extends Event {
@@ -121,6 +125,9 @@ export interface EventWithRelations extends Event {
 }
 
 export type EnquiryType = "reservation" | "private-party" | "general" | "event";
+
+export type ReservationStatus = "new" | "contacted" | "confirmed" | "cancelled" | "completed";
+export type LeadStatus = "new" | "contacted" | "qualified" | "converted" | "lost";
 
 export interface ReservationEnquiry {
   id: string;
@@ -136,6 +143,8 @@ export interface ReservationEnquiry {
   guests: number;
   occasion?: string;
   additionalRequest?: string;
+  source: "website";
+  status: ReservationStatus;
 }
 
 export interface PrivatePartyEnquiry {
@@ -152,6 +161,8 @@ export interface PrivatePartyEnquiry {
   eventType: string;
   budget?: string;
   message?: string;
+  source: "website";
+  status: LeadStatus;
 }
 
 export interface GeneralEnquiry {
@@ -166,3 +177,50 @@ export interface GeneralEnquiry {
 }
 
 export type AnyEnquiry = ReservationEnquiry | PrivatePartyEnquiry | GeneralEnquiry;
+
+// ---------- Admin: users & roles ----------
+
+export type Role = "super-admin" | "marketing-lead" | "marketing" | "social-media" | "reservations-sales";
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  passwordHash: string;
+  role: Role;
+  active: boolean;
+  createdAt: string;
+}
+
+export type PublicAdminUser = Omit<AdminUser, "passwordHash">;
+
+// ---------- Admin: media library ----------
+
+export type MediaCategory =
+  | "event-artwork"
+  | "artist"
+  | "outlet"
+  | "food"
+  | "cocktails"
+  | "crowd"
+  | "interior"
+  | "video";
+
+export interface MediaItem {
+  id: string;
+  url: string;
+  filename: string;
+  alt: string;
+  category: MediaCategory;
+  mimeType: string;
+  size: number;
+  uploadedAt: string;
+  uploadedBy?: string;
+}
+
+// ---------- Admin: settings ----------
+
+export interface SiteSettings {
+  generalWhatsappNumber: string;
+  generalEmail: string;
+}

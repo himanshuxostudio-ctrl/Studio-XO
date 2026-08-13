@@ -6,6 +6,9 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "**.cdninstagram.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
+      // BookMyShow's CDN — event artwork imported via /admin/events/import
+      // links here until an admin replaces it with an uploaded asset.
+      { protocol: "https", hostname: "**.bmscdn.com" },
     ],
   },
   async headers() {

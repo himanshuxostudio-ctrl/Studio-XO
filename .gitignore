@@ -9,3 +9,10 @@ npm-debug.log*
 next-env.d.ts
 data/enquiries/*.json
 !data/enquiries/.gitkeep
+
+# Runtime admin state — created on first write, never seed data. Never
+# commit users.json: it holds bcrypt password hashes.
+data/users.json
+data/media.json
+data/settings.json
+public/uploads/

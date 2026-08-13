@@ -22,7 +22,8 @@ export function OutletHero({ outlet }: { outlet: Outlet }) {
             "w-fit px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider",
             isOperational && "bg-gold/20 text-gold-bright",
             outlet.status === "renovation" && "bg-signal-amber/20 text-signal-amber",
-            outlet.status === "reopening-soon" && "bg-bone-100/15 text-bone-100"
+            outlet.status === "reopening-soon" && "bg-bone-100/15 text-bone-100",
+            outlet.status === "temporarily-closed" && "bg-signal-red/20 text-signal-red"
           )}
         >
           {OUTLET_STATUS_LABELS[outlet.status]}

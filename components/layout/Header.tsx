@@ -7,7 +7,7 @@ import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./MobileNav";
 
-export function Header() {
+export function Header({ whatsappNumber }: { whatsappNumber: string }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,7 +68,7 @@ export function Header() {
         </div>
       </div>
 
-      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} whatsappNumber={whatsappNumber} />
     </header>
   );
 }

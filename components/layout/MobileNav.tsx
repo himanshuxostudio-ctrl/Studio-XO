@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { NAV_LINKS, GENERAL_WHATSAPP_NUMBER } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
 import { generalEnquiryMessage } from "@/lib/whatsapp";
 import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
 import { cn } from "@/lib/utils";
@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 interface MobileNavProps {
   open: boolean;
   onClose: () => void;
+  whatsappNumber: string;
 }
 
-export function MobileNav({ open, onClose }: MobileNavProps) {
+export function MobileNav({ open, onClose, whatsappNumber }: MobileNavProps) {
   return (
     <div
       className={cn(
@@ -39,7 +40,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             Book a Table
           </Link>
           <WhatsAppCTA
-            number={GENERAL_WHATSAPP_NUMBER}
+            number={whatsappNumber}
             message={generalEnquiryMessage()}
             context="mobile-nav"
             className="w-full"

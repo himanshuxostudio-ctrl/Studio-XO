@@ -59,3 +59,12 @@ export function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
   return `${text.slice(0, max - 1).trimEnd()}…`;
 }
+
+/** Normalizes a free-typed Indian phone number to a country-code-prefixed
+ * digit string suitable for tel:/wa.me links (e.g. "98765 43210" -> "919876543210"). */
+export function toIndianDialNumber(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 10) return `91${digits}`;
+  if (digits.startsWith("0") && digits.length === 11) return `91${digits.slice(1)}`;
+  return digits;
+}

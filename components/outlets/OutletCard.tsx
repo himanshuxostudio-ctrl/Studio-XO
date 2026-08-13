@@ -14,7 +14,8 @@ export function OutletCard({ outlet }: { outlet: Outlet }) {
             "absolute left-3 top-3 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm",
             outlet.status === "operational" && "bg-ink-950/80 text-gold-bright",
             outlet.status === "renovation" && "bg-signal-amber/90 text-ink-950",
-            outlet.status === "reopening-soon" && "bg-bone-100/90 text-ink-950"
+            outlet.status === "reopening-soon" && "bg-bone-100/90 text-ink-950",
+            outlet.status === "temporarily-closed" && "bg-signal-red/90 text-bone-100"
           )}
         >
           {OUTLET_STATUS_LABELS[outlet.status]}

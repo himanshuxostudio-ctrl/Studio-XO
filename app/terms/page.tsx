@@ -1,6 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { GENERAL_EMAIL } from "@/lib/constants";
+import { getSettings } from "@/lib/db";
 
 export const metadata = buildMetadata({
   title: "Terms & Conditions",
@@ -9,7 +9,8 @@ export const metadata = buildMetadata({
   noIndex: true,
 });
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const settings = await getSettings();
   return (
     <div className="pt-16 sm:pt-20">
       <Breadcrumbs items={[{ name: "Terms & Conditions", url: "/terms" }]} />
@@ -69,8 +70,8 @@ export default function TermsPage() {
           <h2 className="font-display text-xl text-bone-100 mb-3">Contact</h2>
           <p>
             Questions about these terms can be sent to{" "}
-            <a href={`mailto:${GENERAL_EMAIL}`} className="text-gold-bright underline">
-              {GENERAL_EMAIL}
+            <a href={`mailto:${settings.generalEmail}`} className="text-gold-bright underline">
+              {settings.generalEmail}
             </a>
             . [Insert registered business name and address if required for your jurisdiction.]
           </p>

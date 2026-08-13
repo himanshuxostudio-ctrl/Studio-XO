@@ -35,6 +35,8 @@ export async function POST(request: NextRequest) {
     eventType: parsed.data.eventType,
     budget: parsed.data.budget || undefined,
     message: parsed.data.message || undefined,
+    source: "website",
+    status: "new",
   };
 
   await saveEnquiry(enquiry);

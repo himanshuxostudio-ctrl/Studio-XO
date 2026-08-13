@@ -35,6 +35,7 @@ export const OUTLET_STATUS_LABELS: Record<string, string> = {
   operational: "Open Now",
   renovation: "Under Renovation",
   "reopening-soon": "Reopening Soon",
+  "temporarily-closed": "Temporarily Closed",
 };
 
 export const TICKET_PLATFORM_LABELS: Record<string, string> = {

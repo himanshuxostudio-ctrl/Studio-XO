@@ -1,6 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { GENERAL_EMAIL } from "@/lib/constants";
+import { getSettings } from "@/lib/db";
 
 export const metadata = buildMetadata({
   title: "Cookie Policy",
@@ -9,7 +9,8 @@ export const metadata = buildMetadata({
   noIndex: true,
 });
 
-export default function CookiesPage() {
+export default async function CookiesPage() {
+  const settings = await getSettings();
   return (
     <div className="pt-16 sm:pt-20">
       <Breadcrumbs items={[{ name: "Cookie Policy", url: "/cookies" }]} />
@@ -39,8 +40,8 @@ export default function CookiesPage() {
           <h2 className="font-display text-xl text-bone-100 mb-3">Contact</h2>
           <p>
             Questions about this policy can be sent to{" "}
-            <a href={`mailto:${GENERAL_EMAIL}`} className="text-gold-bright underline">
-              {GENERAL_EMAIL}
+            <a href={`mailto:${settings.generalEmail}`} className="text-gold-bright underline">
+              {settings.generalEmail}
             </a>
             .
           </p>

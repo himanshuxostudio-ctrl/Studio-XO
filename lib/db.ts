@@ -2,16 +2,22 @@ import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type {
+  AdminUser,
   AnyEnquiry,
   Artist,
   Brand,
   Event,
   EventWithRelations,
+  LeadStatus,
+  MediaItem,
   Outlet,
   PrivatePartyEnquiry,
   ReservationEnquiry,
+  ReservationStatus,
   GeneralEnquiry,
+  SiteSettings,
 } from "./types";
+import { GENERAL_WHATSAPP_NUMBER, GENERAL_EMAIL } from "./constants";
 import { isPastDate } from "./utils";
 
 /**
@@ -33,6 +39,15 @@ async function readJson<T>(file: string): Promise<T> {
 
 async function writeJson<T>(file: string, data: T): Promise<void> {
   await fs.writeFile(path.join(DATA_DIR, file), JSON.stringify(data, null, 2), "utf-8");
+}
+
+async function readJsonWithDefault<T>(file: string, fallback: T): Promise<T> {
+  try {
+    return await readJson<T>(file);
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return fallback;
+    throw err;
+  }
 }
 
 // ---------- Outlets ----------
@@ -84,6 +99,14 @@ export async function saveArtist(artist: Artist): Promise<void> {
   if (index === -1) artists.push(artist);
   else artists[index] = artist;
   await writeJson("artists.json", artists);
+}
+
+export async function deleteArtist(slug: string): Promise<void> {
+  const artists = await getArtists();
+  await writeJson(
+    "artists.json",
+    artists.filter((a) => a.slug !== slug)
+  );
 }
 
 // ---------- Events ----------
@@ -221,6 +244,103 @@ export async function listEnquiries(): Promise<AnyEnquiry[]> {
       })
   );
   return enquiries.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getReservations(): Promise<ReservationEnquiry[]> {
+  const all = await listEnquiries();
+  return all.filter((e): e is ReservationEnquiry => e.type === "reservation");
+}
+
+export async function getPrivatePartyLeads(): Promise<PrivatePartyEnquiry[]> {
+  const all = await listEnquiries();
+  return all.filter((e): e is PrivatePartyEnquiry => e.type === "private-party");
+}
+
+export async function updateReservationStatus(id: string, status: ReservationStatus): Promise<void> {
+  const file = path.join(ENQUIRIES_DIR, `reservation-${id}.json`);
+  const raw = await fs.readFile(file, "utf-8");
+  const enquiry = JSON.parse(raw) as ReservationEnquiry;
+  enquiry.status = status;
+  await fs.writeFile(file, JSON.stringify(enquiry, null, 2), "utf-8");
+}
+
+export async function updateLeadStatus(id: string, status: LeadStatus): Promise<void> {
+  const file = path.join(ENQUIRIES_DIR, `private-party-${id}.json`);
+  const raw = await fs.readFile(file, "utf-8");
+  const enquiry = JSON.parse(raw) as PrivatePartyEnquiry;
+  enquiry.status = status;
+  await fs.writeFile(file, JSON.stringify(enquiry, null, 2), "utf-8");
+}
+
+// ---------- Users ----------
+
+export async function getUsers(): Promise<AdminUser[]> {
+  return readJsonWithDefault<AdminUser[]>("users.json", []);
+}
+
+export async function getUserByEmail(email: string): Promise<AdminUser | null> {
+  const users = await getUsers();
+  return users.find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null;
+}
+
+export async function getUserById(id: string): Promise<AdminUser | null> {
+  const users = await getUsers();
+  return users.find((u) => u.id === id) ?? null;
+}
+
+export async function saveUser(user: AdminUser): Promise<void> {
+  const users = await getUsers();
+  const index = users.findIndex((u) => u.id === user.id);
+  if (index === -1) users.push(user);
+  else users[index] = user;
+  await writeJson("users.json", users);
+}
+
+export async function deleteUser(id: string): Promise<void> {
+  const users = await getUsers();
+  await writeJson(
+    "users.json",
+    users.filter((u) => u.id !== id)
+  );
+}
+
+// ---------- Media ----------
+
+export async function getMedia(): Promise<MediaItem[]> {
+  const items = await readJsonWithDefault<MediaItem[]>("media.json", []);
+  return items.sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt));
+}
+
+export async function saveMediaItem(item: MediaItem): Promise<void> {
+  const items = await readJsonWithDefault<MediaItem[]>("media.json", []);
+  items.push(item);
+  await writeJson("media.json", items);
+}
+
+export async function deleteMediaItem(id: string): Promise<MediaItem | null> {
+  const items = await readJsonWithDefault<MediaItem[]>("media.json", []);
+  const item = items.find((m) => m.id === id) ?? null;
+  await writeJson(
+    "media.json",
+    items.filter((m) => m.id !== id)
+  );
+  return item;
+}
+
+// ---------- Settings ----------
+
+const DEFAULT_SETTINGS: SiteSettings = {
+  generalWhatsappNumber: GENERAL_WHATSAPP_NUMBER,
+  generalEmail: GENERAL_EMAIL,
+};
+
+export async function getSettings(): Promise<SiteSettings> {
+  const stored = await readJsonWithDefault<Partial<SiteSettings>>("settings.json", {});
+  return { ...DEFAULT_SETTINGS, ...stored };
+}
+
+export async function saveSettings(settings: SiteSettings): Promise<void> {
+  await writeJson("settings.json", settings);
 }
 
 export type { ReservationEnquiry, PrivatePartyEnquiry, GeneralEnquiry };

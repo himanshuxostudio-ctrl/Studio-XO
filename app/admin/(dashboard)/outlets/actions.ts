@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getOutletBySlug, saveOutlet } from "@/lib/db";
+import { requireSection } from "@/lib/auth";
 import type { OutletStatus } from "@/lib/types";
 
 function str(formData: FormData, key: string): string {
@@ -10,6 +11,8 @@ function str(formData: FormData, key: string): string {
 }
 
 export async function saveOutletAction(formData: FormData) {
+  await requireSection("outlets");
+
   const slug = str(formData, "slug");
   const existing = await getOutletBySlug(slug);
   if (!existing) redirect("/admin/outlets");
@@ -24,6 +27,10 @@ export async function saveOutletAction(formData: FormData) {
       .map((p) => p.trim())
       .filter(Boolean),
     address: str(formData, "address") || undefined,
+    heroImage: {
+      src: str(formData, "heroImageSrc") || existing.heroImage.src,
+      alt: str(formData, "heroImageAlt") || existing.heroImage.alt,
+    },
     phones: str(formData, "phones").split(",").map((p) => p.trim()).filter(Boolean),
     emails: str(formData, "emails").split(",").map((e) => e.trim()).filter(Boolean),
     instagramUrl: str(formData, "instagramUrl") || existing.instagramUrl,
@@ -43,5 +50,6 @@ export async function saveOutletAction(formData: FormData) {
   revalidatePath("/outlets");
   revalidatePath(`/outlets/${slug}`);
   revalidatePath("/");
+  if (slug === "room-xo") revalidatePath("/room-xo");
   redirect("/admin/outlets");
 }

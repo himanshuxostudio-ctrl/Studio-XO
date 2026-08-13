@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GENERAL_WHATSAPP_NUMBER } from "@/lib/constants";
 import { generalEnquiryMessage } from "@/lib/whatsapp";
 import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
 
 const HIDDEN_PREFIXES = ["/admin", "/reserve"];
 
-export function StickyMobileCTA() {
+export function StickyMobileCTA({ whatsappNumber }: { whatsappNumber: string }) {
   const pathname = usePathname();
   if (HIDDEN_PREFIXES.some((prefix) => pathname?.startsWith(prefix))) return null;
 
@@ -18,7 +17,7 @@ export function StickyMobileCTA() {
         Book a Table
       </Link>
       <WhatsAppCTA
-        number={GENERAL_WHATSAPP_NUMBER}
+        number={whatsappNumber}
         message={generalEnquiryMessage()}
         context="sticky-mobile-cta"
         label="WhatsApp"

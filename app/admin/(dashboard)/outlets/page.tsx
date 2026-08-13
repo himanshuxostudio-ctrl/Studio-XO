@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { getOutlets } from "@/lib/db";
+import { requireSection } from "@/lib/auth";
 import { OUTLET_STATUS_LABELS } from "@/lib/constants";
 
 export default async function AdminOutletsPage() {
+  await requireSection("outlets");
   const outlets = await getOutlets();
 
   return (

@@ -2,6 +2,7 @@ import { getOutletsByBrand } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { OutletGrid } from "@/components/outlets/OutletGrid";
+import type { OutletStatus } from "@/lib/types";
 
 export const metadata = buildMetadata({
   title: "Outlets — Studio XO Across India",
@@ -9,7 +10,7 @@ export const metadata = buildMetadata({
   path: "/outlets",
 });
 
-const STATUS_ORDER = ["operational", "reopening-soon", "renovation"] as const;
+const STATUS_ORDER: OutletStatus[] = ["operational", "reopening-soon", "renovation", "temporarily-closed"];
 
 export default async function OutletsPage() {
   const outlets = await getOutletsByBrand("studio-xo");

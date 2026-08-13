@@ -1,14 +1,17 @@
 import { notFound } from "next/navigation";
-import { getOutletBySlug } from "@/lib/db";
+import { getOutletBySlug, getMedia } from "@/lib/db";
+import { requireSection } from "@/lib/auth";
 import { saveOutletAction } from "../actions";
 
 const fieldClass = "w-full border border-bone-300/20 bg-ink-900 px-4 py-2.5 text-sm text-bone-100 focus:border-gold-bright";
 const labelClass = "mb-1.5 block text-xs uppercase tracking-widest2 text-bone-400";
 
 export default async function EditOutletPage({ params }: { params: Promise<{ slug: string }> }) {
+  await requireSection("outlets");
   const { slug } = await params;
-  const outlet = await getOutletBySlug(slug);
+  const [outlet, media] = await Promise.all([getOutletBySlug(slug), getMedia()]);
   if (!outlet) notFound();
+  const outletImages = media.filter((m) => m.category === "outlet");
 
   return (
     <div>
@@ -22,6 +25,7 @@ export default async function EditOutletPage({ params }: { params: Promise<{ slu
             <option value="operational">Operational</option>
             <option value="renovation">Under Renovation</option>
             <option value="reopening-soon">Reopening Soon</option>
+            <option value="temporarily-closed">Temporarily Closed</option>
           </select>
         </div>
 
@@ -43,6 +47,25 @@ export default async function EditOutletPage({ params }: { params: Promise<{ slu
         <div>
           <label className={labelClass} htmlFor="address">Address</label>
           <input id="address" name="address" defaultValue={outlet.address} className={fieldClass} />
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className={labelClass} htmlFor="heroImageSrc">Hero Image Path</label>
+            <input id="heroImageSrc" name="heroImageSrc" list="outlet-media" defaultValue={outlet.heroImage.src} className={fieldClass} />
+            <datalist id="outlet-media">
+              {outletImages.map((item) => (
+                <option key={item.id} value={item.url}>{item.filename}</option>
+              ))}
+            </datalist>
+            <p className="mt-1 text-xs text-bone-500">
+              Start typing to pick from <a href="/admin/media" className="text-gold-bright underline">Media</a>, or leave as a placeholder.
+            </p>
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="heroImageAlt">Hero Image Alt Text</label>
+            <input id="heroImageAlt" name="heroImageAlt" defaultValue={outlet.heroImage.alt} className={fieldClass} />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">

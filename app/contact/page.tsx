@@ -1,9 +1,8 @@
-import { getOutlets } from "@/lib/db";
+import { getOutlets, getSettings } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { ContactOutletList } from "@/components/outlets/ContactOutletList";
-import { GENERAL_EMAIL, GENERAL_WHATSAPP_NUMBER } from "@/lib/constants";
 import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
 import { generalEnquiryMessage } from "@/lib/whatsapp";
 
@@ -18,7 +17,7 @@ interface ContactPageProps {
 }
 
 export default async function ContactPage({ searchParams: searchParamsPromise }: ContactPageProps) {
-  const [outlets, searchParams] = await Promise.all([getOutlets(), searchParamsPromise]);
+  const [outlets, settings, searchParams] = await Promise.all([getOutlets(), getSettings(), searchParamsPromise]);
 
   return (
     <div className="pt-16 sm:pt-20">
@@ -31,9 +30,9 @@ export default async function ContactPage({ searchParams: searchParamsPromise }:
           Reach any outlet directly, or send a general enquiry below and we&rsquo;ll route it to the right city.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <WhatsAppCTA number={GENERAL_WHATSAPP_NUMBER} message={generalEnquiryMessage()} context="contact-page-header" />
-          <a href={`mailto:${GENERAL_EMAIL}`} className="btn-outline">
-            {GENERAL_EMAIL}
+          <WhatsAppCTA number={settings.generalWhatsappNumber} message={generalEnquiryMessage()} context="contact-page-header" />
+          <a href={`mailto:${settings.generalEmail}`} className="btn-outline">
+            {settings.generalEmail}
           </a>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { GENERAL_EMAIL } from "@/lib/constants";
+import { getSettings } from "@/lib/db";
 
 export const metadata = buildMetadata({
   title: "Privacy Policy",
@@ -9,7 +9,8 @@ export const metadata = buildMetadata({
   noIndex: true,
 });
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const settings = await getSettings();
   return (
     <div className="pt-16 sm:pt-20">
       <Breadcrumbs items={[{ name: "Privacy Policy", url: "/privacy" }]} />
@@ -77,8 +78,8 @@ export default function PrivacyPage() {
           <h2 className="font-display text-xl text-bone-100 mb-3">Contact Us</h2>
           <p>
             For privacy-related requests, write to us at{" "}
-            <a href={`mailto:${GENERAL_EMAIL}`} className="text-gold-bright underline">
-              {GENERAL_EMAIL}
+            <a href={`mailto:${settings.generalEmail}`} className="text-gold-bright underline">
+              {settings.generalEmail}
             </a>
             . [Insert registered business name, address and grievance officer details if required for your jurisdiction.]
           </p>

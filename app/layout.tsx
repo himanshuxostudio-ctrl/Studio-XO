@@ -8,6 +8,7 @@ import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
 import { CookieConsent } from "@/components/shared/CookieConsent";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { organizationSchema } from "@/lib/schema";
+import { getSettings } from "@/lib/db";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
 const fraunces = Fraunces({
@@ -47,7 +48,9 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSettings();
+
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-ink-950 pb-16 lg:pb-0">
@@ -55,10 +58,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-bone-100 focus:px-4 focus:py-2 focus:text-ink-950">
           Skip to content
         </a>
-        <Header />
+        <Header whatsappNumber={settings.generalWhatsappNumber} />
         <main id="main-content">{children}</main>
         <Footer />
-        <StickyMobileCTA />
+        <StickyMobileCTA whatsappNumber={settings.generalWhatsappNumber} />
         <CookieConsent />
         <AnalyticsScripts />
       </body>
