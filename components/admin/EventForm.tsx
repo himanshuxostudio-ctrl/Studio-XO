@@ -1,6 +1,7 @@
-import type { Artist, Event, MediaItem, Outlet } from "@/lib/types";
+import type { Artist, Event, Outlet } from "@/lib/types";
 import { EVENT_CATEGORY_LABELS, TICKET_PLATFORM_LABELS } from "@/lib/constants";
 import { saveEventAction } from "@/app/admin/(dashboard)/events/actions";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 
 const fieldClass = "w-full border border-bone-300/20 bg-ink-900 px-4 py-2.5 text-sm text-bone-100 focus:border-gold-bright";
 const labelClass = "mb-1.5 block text-xs uppercase tracking-widest2 text-bone-400";
@@ -10,12 +11,10 @@ interface EventFormProps {
   draft?: Partial<Event>;
   outlets: Outlet[];
   artists: Artist[];
-  media?: MediaItem[];
 }
 
-export function EventForm({ event, draft, outlets, artists, media = [] }: EventFormProps) {
+export function EventForm({ event, draft, outlets, artists }: EventFormProps) {
   const v = event || draft || {};
-  const artworkOptions = media.filter((m) => m.category === "event-artwork");
 
   return (
     <form action={saveEventAction} className="max-w-3xl space-y-6">
@@ -105,23 +104,25 @@ export function EventForm({ event, draft, outlets, artists, media = [] }: EventF
         <textarea id="description" name="description" rows={4} defaultValue={v.description?.join("\n")} className={fieldClass} />
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <div>
-          <label className={labelClass} htmlFor="artworkSrc">Artwork Image Path</label>
-          <input id="artworkSrc" name="artworkSrc" list="event-artwork-media" defaultValue={v.artwork?.src} placeholder="/images/events/... or leave blank" className={fieldClass} />
-          <datalist id="event-artwork-media">
-            {artworkOptions.map((item) => (
-              <option key={item.id} value={item.url}>{item.filename}</option>
-            ))}
-          </datalist>
-          <p className="mt-1 text-xs text-bone-500">
-            Start typing to pick an uploaded image from <a href="/admin/media" className="text-gold-bright underline">Media</a>, or leave blank for a placeholder.
-          </p>
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="artworkAlt">Artwork Alt Text</label>
-          <input id="artworkAlt" name="artworkAlt" defaultValue={v.artwork?.alt} className={fieldClass} />
-        </div>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <ImageUploadField
+          label="Desktop Event Banner"
+          srcFieldName="artworkSrc"
+          defaultSrc={v.artwork?.src}
+          altFieldName="artworkAlt"
+          defaultAlt={v.artwork?.alt}
+          category="event-artwork"
+          recommended={{ width: 1200, height: 1500 }}
+          hint="Leave empty for a placeholder."
+        />
+        <ImageUploadField
+          label="Mobile Event Banner"
+          srcFieldName="artworkMobileSrc"
+          defaultSrc={v.artwork?.mobileSrc}
+          category="event-artwork"
+          recommended={{ width: 900, height: 1125 }}
+          hint="Optional — falls back to the desktop banner on mobile if left empty."
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">

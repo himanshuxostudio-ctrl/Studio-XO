@@ -23,12 +23,20 @@ export default async function RoomXoPage() {
   const outlet = await getOutletBySlug("room-xo");
   const events = outlet ? await getUpcomingEvents({ outletSlug: outlet.slug }) : [];
 
+  // Use the CMS-controlled outlet hero image whenever an admin has set a
+  // real one; otherwise keep the editorial placeholder Frame renders for
+  // any /placeholder/* src.
+  const heroImage =
+    outlet && outlet.heroImage.src && !outlet.heroImage.src.startsWith("/placeholder")
+      ? outlet.heroImage
+      : { src: "/placeholder/room-xo-hero-full", alt: outlet?.heroImage.alt || "Room XO — dark, minimal techno interior" };
+
   return (
     <div className="bg-[#050507]">
       {outlet && <JsonLd data={localBusinessSchema(outlet)} />}
 
       <section className="relative flex min-h-[85vh] items-end overflow-hidden pt-16 sm:pt-20">
-        <Frame image={{ src: "/placeholder/room-xo-hero-full", alt: "Room XO — dark, minimal techno interior" }} className="absolute inset-0 h-full w-full" priority sizes="100vw" />
+        <Frame image={heroImage} className="absolute inset-0 h-full w-full" priority sizes="100vw" />
         <div className="absolute inset-0 bg-grain-fade" />
         <div className="container-xo relative z-10 pb-20">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-bone-400">Part of the XO Ecosystem</p>

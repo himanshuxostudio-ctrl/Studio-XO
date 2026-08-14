@@ -1,4 +1,4 @@
-import { getOutlets, getArtists, getMedia } from "@/lib/db";
+import { getOutlets, getArtists } from "@/lib/db";
 import { requireSection } from "@/lib/auth";
 import { EventForm } from "@/components/admin/EventForm";
 import type { Event } from "@/lib/types";
@@ -9,7 +9,7 @@ interface NewEventPageProps {
 
 export default async function NewEventPage({ searchParams }: NewEventPageProps) {
   await requireSection("events");
-  const [outlets, artists, media, params] = await Promise.all([getOutlets(), getArtists(), getMedia(), searchParams]);
+  const [outlets, artists, params] = await Promise.all([getOutlets(), getArtists(), searchParams]);
 
   const draft: Partial<Event> | undefined = params.draft
     ? {
@@ -34,7 +34,7 @@ export default async function NewEventPage({ searchParams }: NewEventPageProps) 
           Imported from BookMyShow. Review every field below — nothing is published automatically.
         </p>
       )}
-      <EventForm outlets={outlets} artists={artists} media={media} draft={draft} />
+      <EventForm outlets={outlets} artists={artists} draft={draft} />
     </div>
   );
 }

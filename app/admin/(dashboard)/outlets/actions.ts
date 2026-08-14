@@ -28,8 +28,11 @@ export async function saveOutletAction(formData: FormData) {
       .filter(Boolean),
     address: str(formData, "address") || undefined,
     heroImage: {
-      src: str(formData, "heroImageSrc") || existing.heroImage.src,
-      alt: str(formData, "heroImageAlt") || existing.heroImage.alt,
+      src: str(formData, "heroImageSrc") || "/placeholder/outlet-hero",
+      alt:
+        str(formData, "heroImageAlt") ||
+        `${existing.brand === "room-xo" ? "Room XO" : existing.name} nightclub interior and event atmosphere`,
+      mobileSrc: str(formData, "heroImageMobileSrc") || undefined,
     },
     phones: str(formData, "phones").split(",").map((p) => p.trim()).filter(Boolean),
     emails: str(formData, "emails").split(",").map((e) => e.trim()).filter(Boolean),

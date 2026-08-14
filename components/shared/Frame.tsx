@@ -81,15 +81,31 @@ export function Frame({ image, className, sizes, priority, fill = true }: FrameP
   }
 
   if (fill) {
+    // When a mobile-specific crop is set, show it under the sm breakpoint
+    // and the desktop image at/above it — same convention the rest of the
+    // site uses for mobile/desktop layout switches. Records without a
+    // mobile image (the common case) render exactly as before.
+    const hasMobile = !!image.mobileSrc && image.mobileSrc !== image.src;
+
     return (
       <div className={cn("relative overflow-hidden", className)}>
+        {hasMobile && (
+          <Image
+            src={image.mobileSrc!}
+            alt={image.alt}
+            fill
+            sizes={sizes || "100vw"}
+            priority={priority}
+            className="object-cover sm:hidden"
+          />
+        )}
         <Image
           src={image.src}
           alt={image.alt}
           fill
           sizes={sizes || "100vw"}
           priority={priority}
-          className="object-cover"
+          className={cn("object-cover", hasMobile && "hidden sm:block")}
         />
       </div>
     );

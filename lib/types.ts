@@ -28,6 +28,13 @@ export interface GalleryImage {
   alt: string;
   width?: number;
   height?: number;
+  // Optional mobile-specific crop/asset. When present, the public site shows
+  // this on small screens and `src` on larger ones. Stored inline in the
+  // same JSONB column as `src` — no schema change required. Older records
+  // simply omit this and keep using `src` everywhere, unchanged.
+  mobileSrc?: string;
+  mobileWidth?: number;
+  mobileHeight?: number;
 }
 
 export interface GeoPoint {

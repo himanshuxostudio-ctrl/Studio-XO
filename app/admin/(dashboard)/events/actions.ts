@@ -55,7 +55,11 @@ export async function saveEventAction(formData: FormData) {
     date: str(formData, "date"),
     startTime: str(formData, "startTime") || "20:00",
     endTime: str(formData, "endTime") || undefined,
-    artwork: { src: str(formData, "artworkSrc") || "/placeholder/event-artwork", alt: str(formData, "artworkAlt") || name },
+    artwork: {
+      src: str(formData, "artworkSrc") || "/placeholder/event-artwork",
+      alt: str(formData, "artworkAlt") || name,
+      mobileSrc: str(formData, "artworkMobileSrc") || undefined,
+    },
     gallery: [],
     description: str(formData, "description")
       .split("\n")
