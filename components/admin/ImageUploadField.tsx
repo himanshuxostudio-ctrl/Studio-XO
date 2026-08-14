@@ -1,8 +1,53 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
 import type { MediaCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+/**
+ * Tracks whether any ImageUploadField inside the same <form> has an upload
+ * in flight, so SaveButton (below) can disable the submit button until it
+ * finishes. Without this, clicking Save mid-upload silently submits the
+ * hidden input's *previous* value — the file lands in Storage and the
+ * media table, but the outlet/event record never gets the new URL.
+ */
+const UploadStatusContext = createContext<((fieldId: string, uploading: boolean) => void) | null>(null);
+const UploadCountContext = createContext(0);
+
+export function UploadStatusProvider({ children }: { children: React.ReactNode }) {
+  const [count, setCount] = useState(0);
+  const busyFields = useRef<Set<string>>(new Set());
+
+  const setFieldUploading = useCallback((fieldId: string, uploading: boolean) => {
+    const wasBusy = busyFields.current.has(fieldId);
+    if (uploading && !wasBusy) {
+      busyFields.current.add(fieldId);
+      setCount((c) => c + 1);
+    } else if (!uploading && wasBusy) {
+      busyFields.current.delete(fieldId);
+      setCount((c) => c - 1);
+    }
+  }, []);
+
+  return (
+    <UploadStatusContext.Provider value={setFieldUploading}>
+      <UploadCountContext.Provider value={count}>{children}</UploadCountContext.Provider>
+    </UploadStatusContext.Provider>
+  );
+}
+
+/** Submit button for forms wrapped in UploadStatusProvider — disabled while
+ * any ImageUploadField inside the same form has an upload in flight. */
+export function SaveButton({ children, className }: { children: React.ReactNode; className?: string }) {
+  const uploadingCount = useContext(UploadCountContext);
+  const busy = uploadingCount > 0;
+
+  return (
+    <button type="submit" disabled={busy} className={cn(className, busy && "opacity-60")}>
+      {busy ? "Waiting for image upload…" : children}
+    </button>
+  );
+}
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const ACCEPT_ATTR = "image/jpeg,image/png,image/webp";
@@ -45,6 +90,16 @@ export function ImageUploadField({
   const [error, setError] = useState("");
   const [lastFile, setLastFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fieldId = useId();
+  const setFieldUploading = useContext(UploadStatusContext);
+
+  // Report busy state to the enclosing UploadStatusProvider (if any) so its
+  // SaveButton can block submission until this upload settles. Clears on
+  // unmount too, so a field removed mid-upload can't leave Save disabled.
+  useEffect(() => {
+    setFieldUploading?.(fieldId, status === "uploading");
+    return () => setFieldUploading?.(fieldId, false);
+  }, [status, fieldId, setFieldUploading]);
 
   function validate(file: File): string | null {
     if (!ACCEPTED_TYPES.includes(file.type)) {

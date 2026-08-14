@@ -1,7 +1,7 @@
 import type { Artist, Event, Outlet } from "@/lib/types";
 import { EVENT_CATEGORY_LABELS, TICKET_PLATFORM_LABELS } from "@/lib/constants";
 import { saveEventAction } from "@/app/admin/(dashboard)/events/actions";
-import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { ImageUploadField, UploadStatusProvider, SaveButton } from "@/components/admin/ImageUploadField";
 
 const fieldClass = "w-full border border-bone-300/20 bg-ink-900 px-4 py-2.5 text-sm text-bone-100 focus:border-gold-bright";
 const labelClass = "mb-1.5 block text-xs uppercase tracking-widest2 text-bone-400";
@@ -18,6 +18,7 @@ export function EventForm({ event, draft, outlets, artists }: EventFormProps) {
 
   return (
     <form action={saveEventAction} className="max-w-3xl space-y-6">
+     <UploadStatusProvider>
       <input type="hidden" name="originalSlug" value={event?.slug || ""} />
       <input type="hidden" name="source" value={v.source || "manual"} />
       {v.sourceUrl && <input type="hidden" name="sourceUrl" value={v.sourceUrl} />}
@@ -182,9 +183,8 @@ export function EventForm({ event, draft, outlets, artists }: EventFormProps) {
         </div>
       </details>
 
-      <button type="submit" className="btn-primary">
-        {event ? "Save Changes" : "Create Event"}
-      </button>
+      <SaveButton className="btn-primary">{event ? "Save Changes" : "Create Event"}</SaveButton>
+     </UploadStatusProvider>
     </form>
   );
 }
