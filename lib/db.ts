@@ -6,6 +6,8 @@ import type {
   Brand,
   Event,
   EventWithRelations,
+  FAQItem,
+  GalleryImage,
   LeadStatus,
   MediaItem,
   Outlet,
@@ -33,6 +35,68 @@ function must<T>(result: { data: T | null; error: { message: string } | null }, 
   if (result.error) throw new Error(`${context}: ${result.error.message}`);
   if (result.data === null) throw new Error(`${context}: no data returned`);
   return result.data;
+}
+
+/**
+ * JSONB columns (images, tickets, description, faqs) are trusted verbatim
+ * by every public page — `image.src.startsWith(...)`, `description.map(...)`,
+ * `ticket.platform`, etc., all assume a specific shape with no null checks.
+ * That's fine for rows written through the CMS's own Server Actions (which
+ * always build a well-formed object), but a row inserted or edited any other
+ * way (direct SQL, a manual test insert, a partial JSONB patch) can leave a
+ * column null, `{}`, or otherwise shaped differently — and an unguarded
+ * `.src`/`.map()` on that turns into an uncaught exception, i.e. a 500 on an
+ * otherwise perfectly valid, existing row. Normalizing at this one
+ * boundary — the only place Supabase rows become app data — means every
+ * page, card, and JSON-LD builder downstream can keep trusting the shape
+ * without each of them re-implementing the same defensive checks.
+ */
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function normalizeImage(value: unknown, fallbackAlt: string, fallbackSrc: string): GalleryImage {
+  if (isPlainObject(value) && typeof value.src === "string" && value.src) {
+    return {
+      src: value.src,
+      alt: typeof value.alt === "string" && value.alt ? value.alt : fallbackAlt,
+      mobileSrc: typeof value.mobileSrc === "string" && value.mobileSrc ? value.mobileSrc : undefined,
+      width: typeof value.width === "number" ? value.width : undefined,
+      height: typeof value.height === "number" ? value.height : undefined,
+    };
+  }
+  return { src: fallbackSrc, alt: fallbackAlt };
+}
+
+function normalizeImageArray(value: unknown): GalleryImage[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item): item is Record<string, unknown> => isPlainObject(item) && typeof item.src === "string" && !!item.src)
+    .map((item) => normalizeImage(item, typeof item.alt === "string" ? item.alt : "", item.src as string));
+}
+
+function normalizeTicket(value: unknown): Event["ticket"] {
+  if (isPlainObject(value)) {
+    return {
+      platform: (typeof value.platform === "string" ? value.platform : "none") as Event["ticket"]["platform"],
+      url: typeof value.url === "string" && value.url ? value.url : undefined,
+      ctaLabel: typeof value.ctaLabel === "string" && value.ctaLabel ? value.ctaLabel : "Get Tickets",
+    };
+  }
+  return { platform: "none", ctaLabel: "Get Tickets" };
+}
+
+function normalizeStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string");
+}
+
+function normalizeFaqs(value: unknown): FAQItem[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const items = value.filter(
+    (item): item is FAQItem => isPlainObject(item) && typeof item.question === "string" && typeof item.answer === "string"
+  );
+  return items.length ? items : undefined;
 }
 
 // ---------- Outlets ----------
@@ -78,22 +142,22 @@ function rowToOutlet(row: OutletRow): Outlet {
     status: row.status,
     statusMessage: row.status_message ?? undefined,
     tagline: row.tagline,
-    description: row.description,
-    heroImage: row.hero_image,
-    gallery: row.gallery,
+    description: normalizeStringArray(row.description),
+    heroImage: normalizeImage(row.hero_image, row.name, "/placeholder/outlet-hero"),
+    gallery: normalizeImageArray(row.gallery),
     address: row.address ?? undefined,
     addressVerified: row.address_verified,
     addressNote: row.address_note ?? undefined,
     googleMapsUrl: row.google_maps_url,
     coordinates: row.coordinates ?? undefined,
-    phones: row.phones,
-    emails: row.emails,
+    phones: normalizeStringArray(row.phones),
+    emails: normalizeStringArray(row.emails),
     instagramUrl: row.instagram_url,
     instagramHandle: row.instagram_handle,
     whatsappNumber: row.whatsapp_number,
     openingHours: row.opening_hours ?? undefined,
     amenities: row.amenities ?? undefined,
-    faqs: row.faqs ?? undefined,
+    faqs: normalizeFaqs(row.faqs),
     seoTitle: row.seo_title,
     seoDescription: row.seo_description,
     localSeoIntro: row.local_seo_intro,
@@ -178,9 +242,9 @@ function rowToArtist(row: ArtistRow): Artist {
     slug: row.slug,
     name: row.name,
     bio: row.bio,
-    image: row.image ?? undefined,
+    image: row.image ? normalizeImage(row.image, row.name, "/placeholder/artist") : undefined,
     instagramUrl: row.instagram_url ?? undefined,
-    genres: row.genres ?? undefined,
+    genres: row.genres ? normalizeStringArray(row.genres) : undefined,
   };
 }
 
@@ -265,17 +329,17 @@ function rowToEvent(row: EventRow): Event {
     date: row.date,
     startTime: row.start_time,
     endTime: row.end_time ?? undefined,
-    artwork: row.artwork,
-    gallery: row.gallery ?? undefined,
-    description: row.description,
-    ticket: row.ticket,
+    artwork: normalizeImage(row.artwork, row.name, "/placeholder/event-artwork"),
+    gallery: row.gallery ? normalizeImageArray(row.gallery) : undefined,
+    description: normalizeStringArray(row.description),
+    ticket: normalizeTicket(row.ticket),
     tableBookingEnabled: row.table_booking_enabled,
     whatsappOverride: row.whatsapp_override ?? undefined,
     featured: row.featured,
     soldOut: row.sold_out,
     cancelled: row.cancelled,
     published: row.published,
-    faqs: row.faqs ?? undefined,
+    faqs: normalizeFaqs(row.faqs),
     seoTitle: row.seo_title ?? undefined,
     seoDescription: row.seo_description ?? undefined,
     ogImage: row.og_image ?? undefined,
