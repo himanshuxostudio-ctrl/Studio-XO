@@ -3,7 +3,7 @@ import type { EventWithRelations } from "@/lib/types";
 import { Frame } from "@/components/shared/Frame";
 import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
 import { BookingCTA } from "@/components/shared/BookingCTA";
-import { analytics } from "@/lib/analytics";
+import { TicketCTA } from "@/components/events/TicketCTA";
 import { eventEnquiryMessage } from "@/lib/whatsapp";
 import { formatEventDate, formatTime12h } from "@/lib/utils";
 import { EVENT_CATEGORY_LABELS, TICKET_PLATFORM_LABELS } from "@/lib/constants";
@@ -61,23 +61,16 @@ export function EventHero({ event }: { event: EventWithRelations }) {
           )}
 
           {!event.cancelled && !event.soldOut && event.ticket.url && (
-            <a
-              href={event.ticket.url}
-              target="_blank"
-              rel="noopener noreferrer"
+            <TicketCTA
+              url={event.ticket.url}
+              label={event.ticket.ctaLabel || TICKET_PLATFORM_LABELS[event.ticket.platform]}
+              eventName={event.name}
+              eventSlug={event.slug}
+              outletName={outlet.name}
+              city={outlet.city}
+              ticketPlatform={event.ticket.platform}
               className="btn-primary"
-              onClick={() =>
-                analytics.ticketClick({
-                  event_name: event.name,
-                  event_id: event.slug,
-                  outlet: outlet.name,
-                  city: outlet.city,
-                  ticket_platform: event.ticket.platform,
-                })
-              }
-            >
-              {event.ticket.ctaLabel || TICKET_PLATFORM_LABELS[event.ticket.platform]}
-            </a>
+            />
           )}
 
           {!event.cancelled && !event.soldOut && !event.ticket.url && (
