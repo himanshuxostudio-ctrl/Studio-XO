@@ -16,6 +16,13 @@ interface EventFormProps {
 export function EventForm({ event, draft, outlets, artists }: EventFormProps) {
   const v = event || draft || {};
 
+  // Editing an existing event always shows its real, current published
+  // state — never overridden. For a brand-new event, default to Published
+  // ON so "Create Event" makes it live immediately (the common case), with
+  // one exception: BookMyShow imports keep defaulting to OFF, matching the
+  // deliberate "review before it goes live" gate documented on that flow.
+  const publishedDefault = event ? event.published : v.source !== "bookmyshow-import";
+
   return (
     <form action={saveEventAction} className="max-w-3xl space-y-6">
      <UploadStatusProvider>
@@ -153,7 +160,7 @@ export function EventForm({ event, draft, outlets, artists }: EventFormProps) {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         {[
           { key: "tableBookingEnabled", label: "Table Booking", default: v.tableBookingEnabled ?? true },
-          { key: "published", label: "Published", default: v.published ?? false },
+          { key: "published", label: "Published", default: publishedDefault },
           { key: "featured", label: "Featured", default: v.featured ?? false },
           { key: "soldOut", label: "Sold Out", default: v.soldOut ?? false },
           { key: "cancelled", label: "Cancelled", default: v.cancelled ?? false },
