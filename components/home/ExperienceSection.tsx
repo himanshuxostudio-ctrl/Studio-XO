@@ -30,7 +30,7 @@ export function ExperienceSection() {
         </div>
 
         <Frame
-          image={{ src: "/placeholder/experience", alt: "Live performance at Studio XO with the crowd close to the stage" }}
+          image={{ src: "/images/outlets/noida/hero.jpg", alt: "Live performance at Studio XO Noida with the crowd close to the stage" }}
           className="aspect-[4/5] lg:aspect-auto"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />

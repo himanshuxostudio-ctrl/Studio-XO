@@ -35,6 +35,17 @@ const config: Config = {
           amber: "#c97a3a",
           red: "#b3462c",
         },
+        // Sampled from the Studio XO wordmark cards — the brand's true,
+        // saturated crimson (distinct from `signal.red`, which stays a
+        // muted functional color for cancelled/sold-out states). Used for
+        // Room XO's darker, redder identity and deliberate energy accents
+        // elsewhere (brief: "gold as the premium accent, red strategically
+        // for energy").
+        crimson: {
+          DEFAULT: "#8a0f10",
+          bright: "#c81e24",
+          deep: "#4a0808",
+        },
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],

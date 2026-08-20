@@ -12,21 +12,77 @@
       "Expect a underground-leaning sound policy, a serious rig, and a crowd that comes for the music first."
     ],
     "heroImage": {
-      "src": "/placeholder/room-xo-hero",
-      "alt": "Room XO — dark, minimal, techno-driven interior"
+      "src": "/images/outlets/room-xo/hero.jpg",
+      "alt": "Room XO — the red-lit runway floor beneath an industrial ceiling rig",
+      "width": 362,
+      "height": 453
     },
     "gallery": [
       {
-        "src": "/placeholder/room-xo-1",
-        "alt": "Room XO dance floor at night"
+        "src": "/images/outlets/room-xo/secondary.jpg",
+        "alt": "Room XO's dramatic red runway dance floor",
+        "width": 362,
+        "height": 453
       },
       {
-        "src": "/placeholder/room-xo-2",
-        "alt": "Room XO DJ booth and rig"
+        "src": "/images/outlets/room-xo/gallery-01.jpg",
+        "alt": "Room XO entrance — neon signage and velvet rope",
+        "width": 382,
+        "height": 510
       },
       {
-        "src": "/placeholder/room-xo-3",
-        "alt": "Room XO crowd under low light"
+        "src": "/images/outlets/room-xo/gallery-02.jpg",
+        "alt": "Room XO bar under blue and teal light",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-03.jpg",
+        "alt": "Room XO's dance floor from the DJ booth",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-04.jpg",
+        "alt": "Room XO runway floor from above",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-05.jpg",
+        "alt": "Room XO lounge seating under low light",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-06.jpg",
+        "alt": "A performer under a single spotlight at Room XO",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-07.jpg",
+        "alt": "A performer on stage at Room XO",
+        "width": 236,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-08.jpg",
+        "alt": "A dish served at Room XO",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-09.jpg",
+        "alt": "A cocktail on Room XO's bar",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/room-xo/gallery-10.jpg",
+        "alt": "Small plates at Room XO",
+        "width": 287,
+        "height": 510
       }
     ],
     "address": "2nd Floor, AIPL Joy Central, Sector 65, Gurugram, Haryana 122002",
@@ -50,22 +106,84 @@
   },
   {
     "slug": "gurgaon",
-    "name": "Studio XO Gurgaon",
+    "name": "Studio XO Gurgaon / Sector 29",
     "brand": "studio-xo",
     "city": "Gurgaon",
     "state": "Haryana",
-    "status": "renovation",
-    "statusMessage": "Coming back soon. We're renovating Studio XO Gurgaon to raise the bar again — follow us for the reopening date.",
-    "tagline": "Coming back soon.",
+    "status": "operational",
+    "tagline": "Sector 29's live-entertainment address.",
     "description": [
-      "Studio XO Gurgaon is currently under renovation.",
-      "We're reworking the space to bring you a sharper version of live music, food and nightlife in Gurgaon. Follow us on Instagram for reopening updates."
+      "Studio XO Gurgaon / Sector 29 is the flagship room — live artists, a full kitchen and bar, and a calendar that runs weekly.",
+      "From headline acts to comedy and Sufi nights, it's built for people who want dinner, a show and a night out without switching venues."
     ],
     "heroImage": {
-      "src": "/placeholder/gurgaon-hero",
-      "alt": "Studio XO Gurgaon — under renovation"
+      "src": "/images/outlets/gurgaon/hero.jpg",
+      "alt": "Studio XO Gurgaon / Sector 29 — the green velvet lounge and stage",
+      "width": 302,
+      "height": 378
     },
-    "gallery": [],
+    "gallery": [
+      {
+        "src": "/images/outlets/gurgaon/secondary.jpg",
+        "alt": "The bookshelf-lined bar at Studio XO Gurgaon / Sector 29",
+        "width": 408,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-01.jpg",
+        "alt": "Studio XO Gurgaon / Sector 29 lounge seating",
+        "width": 680,
+        "height": 378
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-02.jpg",
+        "alt": "The bar counter at Studio XO Gurgaon / Sector 29",
+        "width": 680,
+        "height": 306
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-03.jpg",
+        "alt": "The main hall at Studio XO Gurgaon / Sector 29",
+        "width": 680,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-04.jpg",
+        "alt": "A live band performing at Studio XO Gurgaon / Sector 29",
+        "width": 287,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-05.jpg",
+        "alt": "A packed night on stage at Studio XO Gurgaon / Sector 29",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-06.jpg",
+        "alt": "A kebab platter at Studio XO Gurgaon / Sector 29",
+        "width": 241,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-07.jpg",
+        "alt": "A plated dish at Studio XO Gurgaon / Sector 29",
+        "width": 241,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-08.jpg",
+        "alt": "A cocktail at Studio XO Gurgaon / Sector 29",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/gurgaon/gallery-09.jpg",
+        "alt": "A cocktail on the bar at Studio XO Gurgaon / Sector 29",
+        "width": 382,
+        "height": 510
+      }
+    ],
     "addressVerified": false,
     "googleMapsUrl": "https://share.google/GcSnCYhn6WgzU4haH",
     "phones": [
@@ -78,10 +196,10 @@
     "instagramUrl": "https://www.instagram.com/studioxoofficial/",
     "instagramHandle": "@studioxoofficial",
     "whatsappNumber": "919773898075",
-    "seoTitle": "Studio XO Gurgaon — Under Renovation | Reopening Soon",
-    "seoDescription": "Studio XO Gurgaon is under renovation and getting ready for its next chapter. Follow us for the reopening date and updates.",
-    "localSeoIntro": "Studio XO Gurgaon has been a home for live music and nightlife in the city — it's currently under renovation and will reopen soon.",
-    "featured": false
+    "seoTitle": "Studio XO Gurgaon / Sector 29 — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Gurgaon / Sector 29 hosts live music, comedy and weekend nights with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Gurgaon / Sector 29 is a live-entertainment and dining venue in Sector 29, Gurgaon, hosting artists and weekend programming.",
+    "featured": true
   },
   {
     "slug": "noida",
@@ -96,21 +214,71 @@
       "From weekend headline acts to comedy and Sufi nights, the calendar keeps moving. Check what's on and book a table before the room fills up."
     ],
     "heroImage": {
-      "src": "/placeholder/noida-hero",
-      "alt": "Studio XO Noida — live stage and dining floor"
+      "src": "/images/outlets/noida/hero.jpg",
+      "alt": "Studio XO Noida — the red multi-tier stage and dining floor",
+      "width": 382,
+      "height": 477
     },
     "gallery": [
       {
-        "src": "/placeholder/noida-1",
-        "alt": "Studio XO Noida live performance"
+        "src": "/images/outlets/noida/secondary.jpg",
+        "alt": "Studio XO Noida's red patterned stage wall",
+        "width": 383,
+        "height": 478
       },
       {
-        "src": "/placeholder/noida-2",
-        "alt": "Studio XO Noida dining area"
+        "src": "/images/outlets/noida/gallery-01.jpg",
+        "alt": "Studio XO Noida stage lit for a live set",
+        "width": 680,
+        "height": 510
       },
       {
-        "src": "/placeholder/noida-3",
-        "alt": "Studio XO Noida bar"
+        "src": "/images/outlets/noida/gallery-02.jpg",
+        "alt": "Studio XO Noida dining floor under red light",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-03.jpg",
+        "alt": "Guests at Studio XO Noida",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-04.jpg",
+        "alt": "The red atrium at Studio XO Noida",
+        "width": 287,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-05.jpg",
+        "alt": "Guests enjoying a night at Studio XO Noida",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-06.jpg",
+        "alt": "A guest at Studio XO Noida",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-07.jpg",
+        "alt": "A guest with a cocktail at Studio XO Noida",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-08.jpg",
+        "alt": "The bartender at work at Studio XO Noida",
+        "width": 288,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/noida/gallery-09.jpg",
+        "alt": "Studio XO Noida's building exterior at night",
+        "width": 680,
+        "height": 382
       }
     ],
     "address": "Plot 2, Ground Floor, BPTP Capital City, Sector 94, Noida, Uttar Pradesh",
@@ -134,28 +302,58 @@
   },
   {
     "slug": "hyderabad-stone-waters",
-    "name": "Studio XO x Stone Waters Hyderabad",
+    "name": "Studio XO x Stonewaters, Hyderabad",
     "brand": "studio-xo",
     "city": "Hyderabad",
     "state": "Telangana",
     "status": "operational",
-    "tagline": "Studio XO's live-entertainment concept, at Stone Waters.",
+    "tagline": "Studio XO's live-entertainment concept, at Stonewaters.",
     "description": [
-      "Studio XO x Stone Waters brings the Studio XO live-entertainment format to Hyderabad in partnership with Stone Waters.",
-      "Live acts, weekend programming and a dining-and-nightlife format built for the city."
+      "Studio XO x Stonewaters, Hyderabad brings the Studio XO live-entertainment format to the city in partnership with Stonewaters.",
+      "Live acts, weekend programming and a dining-and-nightlife format built for Hyderabad."
     ],
     "heroImage": {
-      "src": "/placeholder/hyderabad-hero",
-      "alt": "Studio XO x Stone Waters Hyderabad"
+      "src": "/images/outlets/hyderabad-stone-waters/hero.jpg",
+      "alt": "Studio XO x Stonewaters, Hyderabad — the stone-arched lounge",
+      "width": 362,
+      "height": 453
     },
     "gallery": [
       {
-        "src": "/placeholder/hyderabad-1",
-        "alt": "Studio XO Stone Waters Hyderabad interior"
+        "src": "/images/outlets/hyderabad-stone-waters/secondary.jpg",
+        "alt": "An intimate stone-walled booth at Studio XO x Stonewaters, Hyderabad",
+        "width": 382,
+        "height": 477
       },
       {
-        "src": "/placeholder/hyderabad-2",
-        "alt": "Studio XO Stone Waters Hyderabad event night"
+        "src": "/images/outlets/hyderabad-stone-waters/gallery-01.jpg",
+        "alt": "The dining room at Studio XO x Stonewaters, Hyderabad",
+        "width": 680,
+        "height": 454
+      },
+      {
+        "src": "/images/outlets/hyderabad-stone-waters/gallery-02.jpg",
+        "alt": "The Stonewaters bar at Studio XO x Stonewaters, Hyderabad",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/hyderabad-stone-waters/gallery-03.jpg",
+        "alt": "A shared plate at Studio XO x Stonewaters, Hyderabad",
+        "width": 408,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/hyderabad-stone-waters/gallery-04.jpg",
+        "alt": "A dessert plate at Studio XO x Stonewaters, Hyderabad",
+        "width": 408,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/hyderabad-stone-waters/gallery-05.jpg",
+        "alt": "A cocktail at Studio XO x Stonewaters, Hyderabad",
+        "width": 340,
+        "height": 510
       }
     ],
     "address": "S1, Ground Floor, Prestige Skytech Puppalaguda, Financial District, Nanakramguda, Hyderabad, Telangana 500032",
@@ -169,9 +367,9 @@
     "instagramUrl": "https://www.instagram.com/studioxo.stonewaters/",
     "instagramHandle": "@studioxo.stonewaters",
     "whatsappNumber": "918977721991",
-    "seoTitle": "Studio XO x Stone Waters Hyderabad — Live Events & Nightlife",
-    "seoDescription": "Studio XO x Stone Waters Hyderabad hosts live music and weekend events. See upcoming shows and reserve a table.",
-    "localSeoIntro": "Studio XO x Stone Waters is Studio XO's live-entertainment venue in Hyderabad, run in partnership with Stone Waters.",
+    "seoTitle": "Studio XO x Stonewaters, Hyderabad — Live Events & Nightlife",
+    "seoDescription": "Studio XO x Stonewaters, Hyderabad hosts live music and weekend events. See upcoming shows and reserve a table.",
+    "localSeoIntro": "Studio XO x Stonewaters, Hyderabad is Studio XO's live-entertainment venue in the city, run in partnership with Stonewaters.",
     "featured": false
   },
   {
@@ -187,17 +385,77 @@
       "From artist performances to themed nights, it's built for groups who want more than just a table."
     ],
     "heroImage": {
-      "src": "/placeholder/meerut-hero",
-      "alt": "Studio XO Meerut"
+      "src": "/images/outlets/meerut/hero.jpg",
+      "alt": "Studio XO Meerut — the mosaic-tiled bar under pink light",
+      "width": 362,
+      "height": 453
     },
     "gallery": [
       {
-        "src": "/placeholder/meerut-1",
-        "alt": "Studio XO Meerut stage"
+        "src": "/images/outlets/meerut/secondary.jpg",
+        "alt": "The gold-lit bar counter at Studio XO Meerut",
+        "width": 362,
+        "height": 453
       },
       {
-        "src": "/placeholder/meerut-2",
-        "alt": "Studio XO Meerut crowd"
+        "src": "/images/outlets/meerut/gallery-01.jpg",
+        "alt": "Lounge seating at Studio XO Meerut",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-02.jpg",
+        "alt": "Studio XO Meerut's building exterior — The Capital",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-03.jpg",
+        "alt": "Studio XO Meerut lit up at night",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-04.jpg",
+        "alt": "Bar seating at Studio XO Meerut",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-05.jpg",
+        "alt": "The dining counter at Studio XO Meerut",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-06.jpg",
+        "alt": "The red neon corridor at Studio XO Meerut",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-07.jpg",
+        "alt": "Steamed dumplings at Studio XO Meerut",
+        "width": 342,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-08.jpg",
+        "alt": "Wood-fired pizza at Studio XO Meerut",
+        "width": 347,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-09.jpg",
+        "alt": "A cocktail with citrus at Studio XO Meerut",
+        "width": 327,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/meerut/gallery-10.jpg",
+        "alt": "A cocktail with mint at Studio XO Meerut",
+        "width": 376,
+        "height": 510
       }
     ],
     "address": "Garh Road, Ram Garhi, near Samudra Hyundai, opposite VIP Luggage & Bags, Meerut, Uttar Pradesh",
@@ -232,17 +490,65 @@
       "Built for celebrations, big and small."
     ],
     "heroImage": {
-      "src": "/placeholder/mohali-hero",
-      "alt": "Studio XO Mohali"
+      "src": "/images/outlets/mohali/hero.jpg",
+      "alt": "Studio XO Mohali — the red-lit bar counter",
+      "width": 362,
+      "height": 453
     },
     "gallery": [
       {
-        "src": "/placeholder/mohali-1",
-        "alt": "Studio XO Mohali live act"
+        "src": "/images/outlets/mohali/secondary.jpg",
+        "alt": "The main hall at Studio XO Mohali",
+        "width": 362,
+        "height": 453
       },
       {
-        "src": "/placeholder/mohali-2",
-        "alt": "Studio XO Mohali floor"
+        "src": "/images/outlets/mohali/gallery-01.jpg",
+        "alt": "Studio XO Mohali's entrance signage",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-02.jpg",
+        "alt": "The bar at Studio XO Mohali",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-03.jpg",
+        "alt": "Lounge seating at Studio XO Mohali",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-04.jpg",
+        "alt": "Guests enjoying a night at Studio XO Mohali",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-05.jpg",
+        "alt": "A dim sum platter at Studio XO Mohali",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-06.jpg",
+        "alt": "A plated dessert at Studio XO Mohali",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-07.jpg",
+        "alt": "A cocktail at Studio XO Mohali",
+        "width": 287,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/mohali/gallery-08.jpg",
+        "alt": "A cocktail with orange garnish at Studio XO Mohali",
+        "width": 403,
+        "height": 510
       }
     ],
     "addressVerified": false,
@@ -267,18 +573,62 @@
     "brand": "studio-xo",
     "city": "Panipat",
     "state": "Haryana",
-    "status": "reopening-soon",
-    "statusMessage": "Reopening soon. Studio XO Panipat is on its way back — follow us for the date.",
-    "tagline": "Reopening soon.",
+    "status": "operational",
+    "tagline": "Panipat's live-entertainment address.",
     "description": [
-      "Studio XO Panipat is reopening soon.",
-      "Follow us on Instagram or reach out directly for updates on the reopening date."
+      "Studio XO Panipat is a live-music, dining and nightlife venue with a weekend calendar spanning artists, DJs and special nights.",
+      "Built for celebrations and groups who want the night to actually go somewhere."
     ],
     "heroImage": {
-      "src": "/placeholder/panipat-hero",
-      "alt": "Studio XO Panipat — reopening soon"
+      "src": "/images/outlets/panipat/hero.jpg",
+      "alt": "Studio XO Panipat — the grand dining hall beneath a statement chandelier",
+      "width": 740,
+      "height": 925
     },
-    "gallery": [],
+    "gallery": [
+      {
+        "src": "/images/outlets/panipat/secondary.jpg",
+        "alt": "The red neon corridor at Studio XO Panipat",
+        "width": 958,
+        "height": 1197
+      },
+      {
+        "src": "/images/outlets/panipat/gallery-01.jpg",
+        "alt": "Lounge seating at Studio XO Panipat",
+        "width": 1284,
+        "height": 850
+      },
+      {
+        "src": "/images/outlets/panipat/gallery-02.jpg",
+        "alt": "The bar counter at Studio XO Panipat",
+        "width": 1284,
+        "height": 861
+      },
+      {
+        "src": "/images/outlets/panipat/gallery-03.jpg",
+        "alt": "The dining floor at Studio XO Panipat",
+        "width": 1284,
+        "height": 825
+      },
+      {
+        "src": "/images/outlets/panipat/gallery-04.jpg",
+        "alt": "The photo wall at Studio XO Panipat's bar",
+        "width": 1284,
+        "height": 847
+      },
+      {
+        "src": "/images/outlets/panipat/gallery-05.jpg",
+        "alt": "A moody lounge corner at Studio XO Panipat",
+        "width": 934,
+        "height": 1600
+      },
+      {
+        "src": "/images/outlets/panipat/gallery-06.jpg",
+        "alt": "Guests at Studio XO Panipat",
+        "width": 1284,
+        "height": 893
+      }
+    ],
     "addressVerified": false,
     "googleMapsUrl": "https://share.google/ec2eeeVxGgTsibB7N",
     "phones": [
@@ -291,9 +641,9 @@
     "instagramUrl": "https://www.instagram.com/studioxo.panipat/",
     "instagramHandle": "@studioxo.panipat",
     "whatsappNumber": "919077700037",
-    "seoTitle": "Studio XO Panipat — Reopening Soon",
-    "seoDescription": "Studio XO Panipat is reopening soon. Follow us for the reopening date and updates.",
-    "localSeoIntro": "Studio XO Panipat has served live music and nightlife to the city and is preparing to reopen.",
+    "seoTitle": "Studio XO Panipat — Live Music, Dining & Nightlife",
+    "seoDescription": "Studio XO Panipat hosts live music and weekend events with dining and cocktails. See upcoming events and book a table.",
+    "localSeoIntro": "Studio XO Panipat is a live-entertainment and dining venue in Panipat, hosting artists and weekend nightlife.",
     "featured": false
   },
   {
@@ -397,17 +747,77 @@
       "Built for celebrations and groups who want the night to actually go somewhere."
     ],
     "heroImage": {
-      "src": "/placeholder/indore-hero",
-      "alt": "Studio XO Indore"
+      "src": "/images/outlets/indore/hero.jpg",
+      "alt": "Studio XO Indore — the red canopy-ceilinged VIP lounge",
+      "width": 1079,
+      "height": 1348
     },
     "gallery": [
       {
-        "src": "/placeholder/indore-1",
-        "alt": "Studio XO Indore stage"
+        "src": "/images/outlets/indore/secondary.jpg",
+        "alt": "The colourful bookshelf-backed lounge at Studio XO Indore",
+        "width": 1023,
+        "height": 1278
       },
       {
-        "src": "/placeholder/indore-2",
-        "alt": "Studio XO Indore dining floor"
+        "src": "/images/outlets/indore/gallery-01.jpg",
+        "alt": "A private booth at Studio XO Indore",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-02.jpg",
+        "alt": "The stage lit for a live set at Studio XO Indore",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/indore/gallery-03.jpg",
+        "alt": "A guest table at Studio XO Indore",
+        "width": 680,
+        "height": 453
+      },
+      {
+        "src": "/images/outlets/indore/gallery-04.jpg",
+        "alt": "A pizza at Studio XO Indore",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-05.jpg",
+        "alt": "Guests sharing a meal at Studio XO Indore",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-06.jpg",
+        "alt": "A colourful cocktail at Studio XO Indore",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-07.jpg",
+        "alt": "A spiced cocktail at Studio XO Indore",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-08.jpg",
+        "alt": "A shared platter at Studio XO Indore",
+        "width": 382,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-09.jpg",
+        "alt": "Studio XO Indore's rooftop terrace",
+        "width": 340,
+        "height": 510
+      },
+      {
+        "src": "/images/outlets/indore/gallery-10.jpg",
+        "alt": "The bartender at work at Studio XO Indore",
+        "width": 382,
+        "height": 510
       }
     ],
     "address": "302–304, 3rd Floor, A Block, High Street Apollo, Vijay Nagar, Indore, Madhya Pradesh 452010",

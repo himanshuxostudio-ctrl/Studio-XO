@@ -29,7 +29,11 @@ export default async function RoomXoPage() {
   const heroImage =
     outlet && outlet.heroImage.src && !outlet.heroImage.src.startsWith("/placeholder")
       ? outlet.heroImage
-      : { src: "/placeholder/room-xo-hero-full", alt: outlet?.heroImage.alt || "Room XO — dark, minimal techno interior" };
+      : {
+          src: "/images/room-xo/hero-wide.jpg",
+          mobileSrc: "/images/room-xo/hero-mobile.jpg",
+          alt: outlet?.heroImage.alt || "Room XO's dramatic red runway dance floor",
+        };
 
   return (
     <div className="bg-[#050507]">
@@ -41,7 +45,7 @@ export default async function RoomXoPage() {
         <div className="container-xo relative z-10 pb-20">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-bone-400">Part of the XO Ecosystem</p>
           <h1 className="mt-4 font-display text-display-1 text-bone-100">
-            ROOM <span className="italic text-[#9aa3ff]">XO</span>
+            ROOM <span className="italic text-crimson-bright">XO</span>
           </h1>
           <p className="mt-6 max-w-xl text-balance text-bone-300/80">
             Techno after dark. Room XO runs on a different clock — underground-leaning sets, a serious rig, and a
@@ -52,7 +56,7 @@ export default async function RoomXoPage() {
 
       <section className="container-xo grid grid-cols-1 gap-12 py-20 sm:py-28 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-5 text-bone-200/85">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9aa3ff]">The Room</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-crimson-bright">The Room</p>
           <h2 className="font-display text-display-3 text-bone-100">Not Studio XO. A room of its own.</h2>
           <p>
             Room XO is deliberately separate from Studio XO&rsquo;s live-music format — no live band, no dinner

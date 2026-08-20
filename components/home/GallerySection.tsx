@@ -1,11 +1,11 @@
 import { Frame } from "@/components/shared/Frame";
 
 const IMAGES = [
-  { src: "/placeholder/atmosphere-1", alt: "Close-up of a live artist performing under stage light" },
-  { src: "/placeholder/atmosphere-2", alt: "A table of guests celebrating at Studio XO" },
-  { src: "/placeholder/atmosphere-3", alt: "Bartender preparing a cocktail" },
-  { src: "/placeholder/atmosphere-4", alt: "Crowd energy on a weekend night" },
-  { src: "/placeholder/atmosphere-5", alt: "Dining setup ahead of service" },
+  { src: "/images/outlets/noida/gallery-08.jpg", alt: "The bartender at work at Studio XO Noida" },
+  { src: "/images/outlets/noida/gallery-03.jpg", alt: "Guests at Studio XO Noida" },
+  { src: "/images/outlets/mohali/gallery-07.jpg", alt: "A cocktail at Studio XO Mohali" },
+  { src: "/images/outlets/gurgaon/gallery-04.jpg", alt: "A live band performing at Studio XO Gurgaon / Sector 29" },
+  { src: "/images/outlets/indore/gallery-05.jpg", alt: "Guests sharing a meal at Studio XO Indore" },
 ];
 
 export function GallerySection() {

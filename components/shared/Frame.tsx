@@ -9,11 +9,12 @@ const GRADIENTS = [
   "from-[#1d1512] via-[#0d0d10] to-[#08080a]",
 ];
 
-// Room XO gets its own cooler, violet-leaning treatment so it never reads as
-// a re-skinned Studio XO placeholder — matches the accent used on /room-xo.
+// Room XO gets its own darker, redder treatment so it never reads as a
+// re-skinned Studio XO placeholder — matches the crimson accent used on
+// /room-xo and the venue's actual red/black photography.
 const ROOM_XO_GRADIENTS = [
-  "from-[#181a2c] via-[#0e0e14] to-[#08080a]",
-  "from-[#141726] via-[#0d0d13] to-[#08080a]",
+  "from-[#26090a] via-[#0e0708] to-[#08080a]",
+  "from-[#1c0708] via-[#0d0607] to-[#08080a]",
 ];
 
 function hashToIndex(input: string, length: number): number {
@@ -51,7 +52,7 @@ export function Frame({ image, className, sizes, priority, fill = true }: FrameP
     const roomXo = isRoomXo(image.src);
     const palette = roomXo ? ROOM_XO_GRADIENTS : GRADIENTS;
     const gradient = palette[hashToIndex(image.src, palette.length)];
-    const monogramTint = roomXo ? "text-[#9aa3ff]/[0.09]" : "text-bone-100/10";
+    const monogramTint = roomXo ? "text-crimson-bright/[0.12]" : "text-bone-100/10";
 
     return (
       <div

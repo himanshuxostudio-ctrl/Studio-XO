@@ -8,7 +8,11 @@ export function Hero({ outlets }: { outlets: Outlet[] }) {
     <section className="relative flex min-h-[92vh] items-end overflow-hidden">
       <div className="absolute inset-0">
         <Frame
-          image={{ src: "/placeholder/hero", alt: "Studio XO — a live stage mid-performance, crowd in silhouette" }}
+          image={{
+            src: "/images/home/hero-wide.jpg",
+            mobileSrc: "/images/home/hero-mobile.jpg",
+            alt: "A grand Studio XO dining hall beneath a statement chandelier",
+          }}
           className="h-full w-full"
           priority
           sizes="100vw"
