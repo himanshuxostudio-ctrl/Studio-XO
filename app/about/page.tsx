@@ -31,7 +31,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <Frame image={{ src: "/images/about/about-hero-wide.jpg", alt: "Studio XO Noida's red stage lit for a live event" }} className="aspect-[16/9] w-full" sizes="100vw" />
+      <Frame image={{ src: "/images/about/about-hero-wide.jpg", alt: "A grand Studio XO dining hall beneath a statement chandelier" }} className="aspect-[16/9] w-full" sizes="100vw" />
 
       <section className="container-xo py-20 sm:py-28">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">

@@ -87,6 +87,12 @@ export function Frame({ image, className, sizes, priority, fill = true }: FrameP
     // site uses for mobile/desktop layout switches. Records without a
     // mobile image (the common case) render exactly as before.
     const hasMobile = !!image.mobileSrc && image.mobileSrc !== image.src;
+    // Full native resolution is always handed to next/image - cropping to
+    // fit the container happens here, via CSS object-cover, rather than in
+    // pre-processing. A non-center focalY lets a specific shot (e.g. a
+    // chandelier near the ceiling) stay framed correctly without ever
+    // discarding source pixels the way a baked-in pre-crop would.
+    const objectPosition = typeof image.focalY === "number" ? `50% ${Math.round(image.focalY * 100)}%` : undefined;
 
     return (
       <div className={cn("relative overflow-hidden", className)}>
@@ -98,6 +104,7 @@ export function Frame({ image, className, sizes, priority, fill = true }: FrameP
             sizes={sizes || "100vw"}
             priority={priority}
             className="object-cover sm:hidden"
+            style={objectPosition ? { objectPosition } : undefined}
           />
         )}
         <Image
@@ -107,6 +114,7 @@ export function Frame({ image, className, sizes, priority, fill = true }: FrameP
           sizes={sizes || "100vw"}
           priority={priority}
           className={cn("object-cover", hasMobile && "hidden sm:block")}
+          style={objectPosition ? { objectPosition } : undefined}
         />
       </div>
     );

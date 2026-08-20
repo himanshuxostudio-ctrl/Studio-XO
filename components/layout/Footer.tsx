@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getOutlets } from "@/lib/db";
 import { NAV_LINKS, LEGAL_LINKS, INSTAGRAM_HANDLES } from "@/lib/constants";
 
@@ -10,9 +11,9 @@ export async function Footer() {
     <footer className="border-t border-bone-300/10 bg-ink-950">
       <div className="container-xo grid grid-cols-2 gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <div className="col-span-2 lg:col-span-1">
-          <p className="font-display text-2xl tracking-[0.15em] text-bone-100">
-            STUDIO <span className="text-gold-bright">XO</span>
-          </p>
+          <div className="relative h-9 w-[150px]">
+            <Image src="/images/brand/studio-xo-logo-gold.png" alt="Studio XO" fill sizes="150px" className="object-contain object-left" />
+          </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-bone-300/70">
             Live entertainment, dining and nightlife across India. Music, food, artists and celebrations — all in one room.
           </p>

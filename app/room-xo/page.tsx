@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getOutletBySlug, getUpcomingEvents } from "@/lib/db";
 import { buildMetadata } from "@/lib/seo";
 import { localBusinessSchema } from "@/lib/schema";
@@ -44,8 +45,8 @@ export default async function RoomXoPage() {
         <div className="absolute inset-0 bg-grain-fade" />
         <div className="container-xo relative z-10 pb-20">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-bone-400">Part of the XO Ecosystem</p>
-          <h1 className="mt-4 font-display text-display-1 text-bone-100">
-            ROOM <span className="italic text-crimson-bright">XO</span>
+          <h1 className="relative mt-6 h-16 w-[280px] sm:h-20 sm:w-[360px]">
+            <Image src="/images/brand/room-xo-logo.png" alt="Room XO" fill sizes="(min-width: 640px) 360px, 280px" priority className="object-contain object-left" />
           </h1>
           <p className="mt-6 max-w-xl text-balance text-bone-300/80">
             Techno after dark. Room XO runs on a different clock — underground-leaning sets, a serious rig, and a

@@ -14,14 +14,15 @@
     "heroImage": {
       "src": "/images/outlets/room-xo/hero.jpg",
       "alt": "Room XO — the red-lit runway floor beneath an industrial ceiling rig",
-      "width": 362,
-      "height": 453
+      "width": 680,
+      "height": 453,
+      "focalY": 0.4
     },
     "gallery": [
       {
         "src": "/images/outlets/room-xo/secondary.jpg",
         "alt": "Room XO's dramatic red runway dance floor",
-        "width": 362,
+        "width": 680,
         "height": 453
       },
       {
@@ -119,14 +120,15 @@
     "heroImage": {
       "src": "/images/outlets/gurgaon/hero.jpg",
       "alt": "Studio XO Gurgaon / Sector 29 — the green velvet lounge and stage",
-      "width": 302,
-      "height": 378
+      "width": 680,
+      "height": 378,
+      "focalY": 0.35
     },
     "gallery": [
       {
         "src": "/images/outlets/gurgaon/secondary.jpg",
         "alt": "The bookshelf-lined bar at Studio XO Gurgaon / Sector 29",
-        "width": 408,
+        "width": 680,
         "height": 510
       },
       {
@@ -217,14 +219,15 @@
       "src": "/images/outlets/noida/hero.jpg",
       "alt": "Studio XO Noida — the red multi-tier stage and dining floor",
       "width": 382,
-      "height": 477
+      "height": 510,
+      "focalY": 0.38
     },
     "gallery": [
       {
         "src": "/images/outlets/noida/secondary.jpg",
         "alt": "Studio XO Noida's red patterned stage wall",
         "width": 383,
-        "height": 478
+        "height": 510
       },
       {
         "src": "/images/outlets/noida/gallery-01.jpg",
@@ -315,15 +318,16 @@
     "heroImage": {
       "src": "/images/outlets/hyderabad-stone-waters/hero.jpg",
       "alt": "Studio XO x Stonewaters, Hyderabad — the stone-arched lounge",
-      "width": 362,
-      "height": 453
+      "width": 680,
+      "height": 453,
+      "focalY": 0.4
     },
     "gallery": [
       {
         "src": "/images/outlets/hyderabad-stone-waters/secondary.jpg",
         "alt": "An intimate stone-walled booth at Studio XO x Stonewaters, Hyderabad",
         "width": 382,
-        "height": 477
+        "height": 510
       },
       {
         "src": "/images/outlets/hyderabad-stone-waters/gallery-01.jpg",
@@ -387,14 +391,15 @@
     "heroImage": {
       "src": "/images/outlets/meerut/hero.jpg",
       "alt": "Studio XO Meerut — the mosaic-tiled bar under pink light",
-      "width": 362,
-      "height": 453
+      "width": 680,
+      "height": 453,
+      "focalY": 0.42
     },
     "gallery": [
       {
         "src": "/images/outlets/meerut/secondary.jpg",
         "alt": "The gold-lit bar counter at Studio XO Meerut",
-        "width": 362,
+        "width": 680,
         "height": 453
       },
       {
@@ -492,14 +497,15 @@
     "heroImage": {
       "src": "/images/outlets/mohali/hero.jpg",
       "alt": "Studio XO Mohali — the red-lit bar counter",
-      "width": 362,
-      "height": 453
+      "width": 680,
+      "height": 453,
+      "focalY": 0.38
     },
     "gallery": [
       {
         "src": "/images/outlets/mohali/secondary.jpg",
         "alt": "The main hall at Studio XO Mohali",
-        "width": 362,
+        "width": 680,
         "height": 453
       },
       {
@@ -583,14 +589,15 @@
       "src": "/images/outlets/panipat/hero.jpg",
       "alt": "Studio XO Panipat — the grand dining hall beneath a statement chandelier",
       "width": 740,
-      "height": 925
+      "height": 1600,
+      "focalY": 0.32
     },
     "gallery": [
       {
         "src": "/images/outlets/panipat/secondary.jpg",
         "alt": "The red neon corridor at Studio XO Panipat",
         "width": 958,
-        "height": 1197
+        "height": 1600
       },
       {
         "src": "/images/outlets/panipat/gallery-01.jpg",
@@ -750,14 +757,15 @@
       "src": "/images/outlets/indore/hero.jpg",
       "alt": "Studio XO Indore — the red canopy-ceilinged VIP lounge",
       "width": 1079,
-      "height": 1348
+      "height": 1600,
+      "focalY": 0.38
     },
     "gallery": [
       {
         "src": "/images/outlets/indore/secondary.jpg",
         "alt": "The colourful bookshelf-backed lounge at Studio XO Indore",
         "width": 1023,
-        "height": 1278
+        "height": 1600
       },
       {
         "src": "/images/outlets/indore/gallery-01.jpg",

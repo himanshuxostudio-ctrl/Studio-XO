@@ -63,6 +63,7 @@ function normalizeImage(value: unknown, fallbackAlt: string, fallbackSrc: string
       mobileSrc: typeof value.mobileSrc === "string" && value.mobileSrc ? value.mobileSrc : undefined,
       width: typeof value.width === "number" ? value.width : undefined,
       height: typeof value.height === "number" ? value.height : undefined,
+      focalY: typeof value.focalY === "number" ? value.focalY : undefined,
     };
   }
   return { src: fallbackSrc, alt: fallbackAlt };

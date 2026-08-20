@@ -35,6 +35,12 @@ export interface GalleryImage {
   mobileSrc?: string;
   mobileWidth?: number;
   mobileHeight?: number;
+  // Optional vertical focal anchor (0 = top, 0.5 = center/default, 1 =
+  // bottom) used as the CSS object-position when a Frame crops this image
+  // via object-cover. Lets a wide source keep its full resolution (no
+  // pre-crop) while still framing the right part of the shot - e.g. a
+  // ceiling chandelier or a stage - in a narrower container.
+  focalY?: number;
 }
 
 export interface GeoPoint {

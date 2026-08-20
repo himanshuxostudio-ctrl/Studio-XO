@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/constants";
@@ -31,8 +32,15 @@ export function Header({ whatsappNumber }: { whatsappNumber: string }) {
       )}
     >
       <div className="container-xo flex h-16 items-center justify-between sm:h-20">
-        <Link href="/" className="font-display text-xl tracking-[0.15em] text-bone-100 sm:text-2xl">
-          STUDIO <span className="text-gold-bright">XO</span>
+        <Link href="/" className="relative block h-8 w-[124px] shrink-0 sm:h-9 sm:w-[140px]" aria-label="Studio XO — home">
+          <Image
+            src="/images/brand/studio-xo-logo-gold.png"
+            alt="Studio XO"
+            fill
+            sizes="140px"
+            priority
+            className="object-contain object-left"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">

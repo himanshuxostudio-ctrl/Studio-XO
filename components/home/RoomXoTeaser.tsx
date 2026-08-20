@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getOutletBySlug } from "@/lib/db";
 import { Frame } from "@/components/shared/Frame";
 
@@ -13,8 +14,8 @@ export async function RoomXoTeaser() {
       </div>
       <div className="container-xo relative z-10 py-24 sm:py-32">
         <p className="text-xs font-semibold uppercase tracking-widest2 text-bone-400">A Different Room</p>
-        <h2 className="mt-3 font-display text-display-2 text-bone-100">
-          ROOM <span className="italic text-crimson-bright">XO</span>
+        <h2 className="relative mt-4 h-14 w-[220px] sm:h-16 sm:w-[280px]">
+          <Image src="/images/brand/room-xo-logo.png" alt="Room XO" fill sizes="(min-width: 640px) 280px, 220px" className="object-contain object-left" />
         </h2>
         <p className="mt-5 max-w-lg text-bone-300/80">
           Techno. Electronic. Underground-leaning. Room XO is the late-night floor of the XO ecosystem — a separate
