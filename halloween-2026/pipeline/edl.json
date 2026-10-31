@@ -1,0 +1,113 @@
+{
+ "clips": [
+  {
+   "name": "pumpkin-hook",
+   "src": 22.25,
+   "slot": 2.4,
+   "speed": 0.5,
+   "z0": 1.0,
+   "z1": 1.08,
+   "fy": 0.35,
+   "tail": 0.2,
+   "luma": 80
+  },
+  {
+   "name": "entrance-arch",
+   "src": 0.3,
+   "slot": 1.2,
+   "speed": 0.75,
+   "z0": 1.06,
+   "z1": 1.0,
+   "head": 0.2,
+   "luma": 78
+  },
+  {
+   "name": "web-door",
+   "src": 3.5,
+   "slot": 1.2,
+   "speed": 0.75,
+   "z0": 1.0,
+   "z1": 1.05,
+   "luma": 82
+  },
+  {
+   "name": "bloody-shroud",
+   "src": 10.9,
+   "slot": 1.2,
+   "speed": 0.75,
+   "z0": 1.0,
+   "z1": 1.06,
+   "fy": 0.6,
+   "luma": 80
+  },
+  {
+   "name": "web-corridor",
+   "src": 14.0,
+   "slot": 1.2,
+   "speed": 1.0,
+   "z0": 1.0,
+   "z1": 1.04,
+   "luma": 78
+  },
+  {
+   "name": "ghoul",
+   "src": 16.0,
+   "slot": 1.8,
+   "speed": 0.833,
+   "z0": 1.0,
+   "z1": 1.07,
+   "fy": 0.3,
+   "luma": 80
+  },
+  {
+   "name": "skeleton-hands",
+   "src": 30.2,
+   "slot": 1.2,
+   "speed": 1.0,
+   "z0": 1.0,
+   "z1": 1.04,
+   "luma": 84
+  },
+  {
+   "name": "skeleton-stage",
+   "src": 42.9,
+   "slot": 1.2,
+   "speed": 1.0,
+   "z0": 1.03,
+   "z1": 1.08,
+   "fy": 0.6,
+   "luma": 82
+  },
+  {
+   "name": "led-djbooth",
+   "src": 33.0,
+   "slot": 1.2,
+   "speed": 0.833,
+   "z0": 1.0,
+   "z1": 1.05,
+   "luma": 84
+  },
+  {
+   "name": "led-mansion",
+   "src": 47.05,
+   "slot": 1.8,
+   "speed": 0.69,
+   "z0": 1.04,
+   "z1": 1.0,
+   "tail": 0.25,
+   "luma": 84,
+   "gamma": false
+  },
+  {
+   "name": "bar-finale",
+   "src": 57.2,
+   "slot": 3.6,
+   "speed": 0.75,
+   "z0": 1.0,
+   "z1": 1.07,
+   "fy": 0.55,
+   "head": 0.25,
+   "luma": 86
+  }
+ ]
+}
